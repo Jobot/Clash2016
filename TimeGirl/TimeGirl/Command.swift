@@ -8,6 +8,10 @@
 
 import Foundation
 
-protocol Command {
+enum Command {
+    case Examine
     
+    static func commandFromText(text: String) -> (command: Command?, remainingText: String) {
+        return (nil, text)
+    }
 }
