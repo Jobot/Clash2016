@@ -39,7 +39,8 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     func processText(text: String) {
         appendMessage(text, toTextView: textView)
         guard let command = parser.parseCommandFromText(text) else {
-            appendMessage("I do not understand.", toTextView: textView)
+            let message = messageForUnknownText(text)
+            appendMessage(message, toTextView: textView)
             return
         }
         processCommand(command)
@@ -49,11 +50,11 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         var message: String
         switch command {
         case let .Examine(item):
-            message = "You do not see \(item) here."
+            message = messageForExamineItem(item)
         case let .Take(item):
-            message = "You cannot take \(item)."
+            message = messageForTakeItem(item)
         case let .Open(item):
-            message = "You cannot seem to open \(item)."
+            message = messageForOpenItem(item)
         }
         
         appendMessage(message, toTextView: textView)
@@ -69,10 +70,53 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
             storage.appendAttributedString(newLine)
         }
         
-        let attributedMessage = NSAttributedString(string: message)
+        let secondIndex = message.startIndex.advancedBy(1)
+        let firstCharacter = message.substringToIndex(secondIndex).uppercaseString
+        let capitalizedMessage = "\(firstCharacter)\(message.substringFromIndex(secondIndex))"
+        
+        let attributedMessage = NSAttributedString(string: capitalizedMessage)
         storage.appendAttributedString(attributedMessage)
         
         let visibleRange = NSRange(location: string.characters.count, length: 0)
         textView.scrollRangeToVisible(visibleRange)
+    }
+    
+    // MARK: - Messages
+    func randomMessageFromMessages(messages: [String]) -> String {
+        let index = random() % messages.count
+        return messages[index]
+    }
+    
+    func messageForUnknownText(text: String) -> String {
+        let messages = [ "I do not understand.",
+                         "I don't know what you mean.",
+                         "I don't follow."
+        ]
+        return randomMessageFromMessages(messages)
+    }
+    
+    func messageForExamineItem(item: String) -> String {
+        let messages = [ "You do not see \(item) here.",
+                         "I don't see \(item). Do you see \(item)?",
+                         "\(item) is not here."
+        ]
+        return randomMessageFromMessages(messages)
+    }
+    
+    func messageForTakeItem(item: String) -> String {
+        let messages = [ "You cannot take \(item).",
+                         "Why do you want to take \(item)?",
+                         "That's not yours.",
+                         "That's not something you can take."
+        ]
+        return randomMessageFromMessages(messages)
+    }
+    
+    func messageForOpenItem(item: String) -> String {
+        let messages = [ "It does not seem to open.",
+                         "Not everything can be opened.",
+                         "You cannot open \(item) right now."
+        ]
+        return randomMessageFromMessages(messages)
     }
 }
