@@ -56,6 +56,11 @@ class CommandTests: XCTestCase {
         }
     }
     
+    func testCommandFromTextWithOpen() {
+        let text = "opEN the door"
+        commandFromText(text, expectedCommand: .Open, expectedRemainingText: "the door")
+    }
+    
     func commandFromText(text: String, expectedCommand command: Command, expectedRemainingText remainingText: String) {
         let response = Command.commandFromText(text)
         guard let command = response.command else {
