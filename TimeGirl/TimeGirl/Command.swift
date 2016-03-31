@@ -33,10 +33,34 @@ enum Command {
         }
     }
     
+    static func tokenIsArticle(token: String) -> Bool {
+        let text = token.lowercaseString
+        if text == "a" {
+            return true
+        }
+        if text == "an" {
+            return true
+        }
+        if text == "the" {
+            return true
+        }
+        return false
+    }
+    
     static func itemFromRemainingTokens(tokens: [String]) -> String? {
-        guard let item = tokens.first else {
+        guard let firstItem = tokens.first else {
             return nil
         }
+
+        var item = firstItem
+        if tokenIsArticle(firstItem) {
+            guard tokens.count > 1 else {
+                return nil
+            }
+            let secondItem = tokens[1]
+            item = stringFromTokens([item, secondItem])
+        }
+        
         return item
     }
     

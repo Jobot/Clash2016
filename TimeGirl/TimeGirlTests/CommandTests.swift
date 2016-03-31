@@ -29,7 +29,7 @@ class CommandTests: XCTestCase {
     }
     
     func testCommandFromTextWithExamine() {
-        let text = "EXaMinE ruby"
+        let text = "EXaMinE an object"
         guard let command = Command.commandFromTokens(text.tokenize()) else {
             XCTFail()
             return
@@ -37,7 +37,7 @@ class CommandTests: XCTestCase {
         
         switch command {
         case let .Examine(item):
-            XCTAssert(item == "ruby")
+            XCTAssert(item == "an object")
         default:
             XCTFail()
         }
@@ -63,7 +63,7 @@ class CommandTests: XCTestCase {
     }
     
     func testCommandFromTextWithTake() {
-        let text = "TAKe ruby"
+        let text = "TAKe a ruby"
         guard let command = Command.commandFromTokens(text.tokenize()) else {
             XCTFail()
             return
@@ -71,7 +71,7 @@ class CommandTests: XCTestCase {
         
         switch command {
         case let .Take(item):
-            XCTAssert(item == "ruby")
+            XCTAssert(item == "a ruby")
         default:
             XCTFail()
         }
