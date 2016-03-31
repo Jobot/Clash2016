@@ -30,13 +30,39 @@ class CommandTests: XCTestCase {
     
     func testCommandFromTextWithExamine() {
         let text = "EXaMinE ruby"
+        commandFromText(text, expectedCommand: .Examine, expectedRemainingText: "ruby")
+    }
+    
+    func testCommandFromTextWithExamineSynonyms() {
+        let texts = [ "look at ruby",
+                      "inspect ruby",
+                      "view ruby"]
+        for text in texts {
+            commandFromText(text, expectedCommand: .Examine, expectedRemainingText: "ruby")
+        }
+    }
+    
+    func testCommandFromTextWithTake() {
+        let text = "TAKe ruby"
+        commandFromText(text, expectedCommand: .Take, expectedRemainingText: "ruby")
+    }
+    
+    func testCommandFromTextWithTakeSynonyms() {
+        let texts = [ "pick up ruby",
+                      "grab ruby",
+                      "snatch ruby" ]
+        for text in texts {
+            commandFromText(text, expectedCommand: .Take, expectedRemainingText: "ruby")
+        }
+    }
+    
+    func commandFromText(text: String, expectedCommand command: Command, expectedRemainingText remainingText: String) {
         let response = Command.commandFromText(text)
         guard let command = response.command else {
             XCTFail()
             return
         }
-        XCTAssert(command == .Examine)
-        XCTAssert(response.remainingText == "ruby")
+        XCTAssert(command == command)
+        XCTAssert(response.remainingText == remainingText)
     }
-
 }
