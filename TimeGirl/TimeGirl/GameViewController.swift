@@ -21,7 +21,10 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         // Do view setup here.
         
         textField.delegate = self
-        textField.placeholderString = "What do you want to do now?"
+        
+        let attributes = [ NSForegroundColorAttributeName : NSColor.grayColor() ]
+        let placeholderString = "What do you want to do now?"
+        textField.placeholderAttributedString = NSAttributedString(string: placeholderString, attributes: attributes)
         
         parser = TextParser()
     }
@@ -37,10 +40,14 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     }
     
     func processText(text: String) {
-        appendMessage(text, toTextView: textView)
+        guard text.characters.count > 0 else {
+            return
+        }
+        
+        echoCommand(text, toTextView: textView)
         guard let command = parser.parseCommandFromText(text) else {
             let message = messageForUnknownText(text)
-            appendMessage(message, toTextView: textView)
+            echoResponse(message, toTextView: textView)
             return
         }
         processCommand(command)
@@ -57,10 +64,22 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
             message = messageForOpenItem(item)
         }
         
-        appendMessage(message, toTextView: textView)
+        echoResponse(message, toTextView: textView)
     }
     
-    func appendMessage(message: String, toTextView textView: NSTextView) {
+    func echoCommand(command: String, toTextView textView: NSTextView) {
+        appendMessage(command, toTextView: textView, textColor: NSColor.grayColor())
+    }
+    
+    func echoResponse(response: String, toTextView textView: NSTextView) {
+        appendMessage(response, toTextView: textView)
+    }
+    
+    func appendMessage(message: String, toTextView textView: NSTextView, textColor: NSColor = NSColor.whiteColor()) {
+        guard message.characters.count > 0 else {
+            return
+        }
+        
         guard let storage = textView.textStorage, string = textView.string else {
             return
         }
@@ -74,7 +93,8 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         let firstCharacter = message.substringToIndex(secondIndex).uppercaseString
         let capitalizedMessage = "\(firstCharacter)\(message.substringFromIndex(secondIndex))"
         
-        let attributedMessage = NSAttributedString(string: capitalizedMessage)
+        let attributes = [ NSForegroundColorAttributeName : textColor ]
+        let attributedMessage = NSAttributedString(string: capitalizedMessage, attributes: attributes)
         storage.appendAttributedString(attributedMessage)
         
         let visibleRange = NSRange(location: string.characters.count, length: 0)
