@@ -20,21 +20,22 @@ enum Command {
         
         let examine = text.beginsWithPrefixInList(examineStrings)
         if examine.hasPrefix {
-            let prefix = examine.prefix!
-            let index = rawText.startIndex.advancedBy(prefix.characters.count + 1)
-            let remainingText = rawText.substringFromIndex(index)
+            let remainingText = self.remainingText(rawText, forCommand: .Examine, withPrefix: examine.prefix!)
             return (.Examine, remainingText)
         }
         
         let take = text.beginsWithPrefixInList(takeStrings)
         if take.hasPrefix {
-            let prefix = take.prefix!
-            let index = rawText.startIndex.advancedBy(prefix.characters.count + 1)
-            let remainingText = rawText.substringFromIndex(index)
+            let remainingText = self.remainingText(rawText, forCommand: .Take, withPrefix: take.prefix!)
             return (.Take, remainingText)
         }
         
         return (nil, rawText)
+    }
+    
+    static func remainingText(text: String, forCommand command: Command, withPrefix prefix: String) -> String {
+        let index = text.startIndex.advancedBy(prefix.characters.count + 1)
+        return text.substringFromIndex(index)
     }
 }
 
