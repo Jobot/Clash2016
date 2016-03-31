@@ -729,6 +729,11 @@
                             <constraint firstItem="5f8-KV-eKH" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="wfX-UH-RGX"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="5f8-KV-eKH" id="GJA-eO-htm"/>
+                        <outlet property="textField" destination="wPg-yH-iB4" id="kC5-AZ-Myf"/>
+                        <outlet property="textView" destination="UKS-9J-Riq" id="jRX-wN-l0j"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
