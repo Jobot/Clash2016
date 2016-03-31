@@ -26,7 +26,12 @@ class TextParserTests: XCTestCase {
     
     func testParsingReturnsNilWithBogusCommand() {
         let command = parser.parseCommandFromText("THIS IS A BOGUS COMMAND")
-        XCTAssert(command == nil)
+        XCTAssertNil(command)
+    }
+    
+    func testParsingReturnsNilWithEmptyCommand() {
+        let command = parser.parseCommandFromText("    ")
+        XCTAssertNil(command)
     }
     
     func testTokenizingReturnsCorrectNumberOfItems() {

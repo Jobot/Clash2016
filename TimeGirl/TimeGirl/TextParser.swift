@@ -10,6 +10,10 @@ import Foundation
 
 struct TextParser {
     func parseCommandFromText(text: String) -> Command? {
+        let tokens = tokenizeText(text)
+        guard tokens.count > 0 else {
+            return nil
+        }
         return nil
     }
     
