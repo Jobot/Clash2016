@@ -11,6 +11,8 @@
 		7CF76D941CACA42500FEC1C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CF76D931CACA42500FEC1C9 /* Assets.xcassets */; };
 		7CF76D971CACA42500FEC1C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CF76D951CACA42500FEC1C9 /* Main.storyboard */; };
 		7CF76DA21CACA42500FEC1C9 /* TimeGirlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF76DA11CACA42500FEC1C9 /* TimeGirlTests.swift */; };
+		7CF76DAE1CACA5DB00FEC1C9 /* TextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF76DAD1CACA5DB00FEC1C9 /* TextParser.swift */; };
+		7CF76DB01CACA68000FEC1C9 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF76DAF1CACA68000FEC1C9 /* Command.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +34,8 @@
 		7CF76D9D1CACA42500FEC1C9 /* TimeGirlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimeGirlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF76DA11CACA42500FEC1C9 /* TimeGirlTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeGirlTests.swift; sourceTree = "<group>"; };
 		7CF76DA31CACA42500FEC1C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CF76DAD1CACA5DB00FEC1C9 /* TextParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextParser.swift; sourceTree = "<group>"; };
+		7CF76DAF1CACA68000FEC1C9 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,7 @@
 		7CF76D8E1CACA42500FEC1C9 /* TimeGirl */ = {
 			isa = PBXGroup;
 			children = (
+				7CF76DAC1CACA51000FEC1C9 /* Language Tools */,
 				7CF76D8F1CACA42500FEC1C9 /* AppDelegate.swift */,
 				7CF76D931CACA42500FEC1C9 /* Assets.xcassets */,
 				7CF76D951CACA42500FEC1C9 /* Main.storyboard */,
@@ -88,6 +93,15 @@
 				7CF76DA31CACA42500FEC1C9 /* Info.plist */,
 			);
 			path = TimeGirlTests;
+			sourceTree = "<group>";
+		};
+		7CF76DAC1CACA51000FEC1C9 /* Language Tools */ = {
+			isa = PBXGroup;
+			children = (
+				7CF76DAF1CACA68000FEC1C9 /* Command.swift */,
+				7CF76DAD1CACA5DB00FEC1C9 /* TextParser.swift */,
+			);
+			name = "Language Tools";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +205,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CF76D901CACA42500FEC1C9 /* AppDelegate.swift in Sources */,
+				7CF76DAE1CACA5DB00FEC1C9 /* TextParser.swift in Sources */,
+				7CF76DB01CACA68000FEC1C9 /* Command.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +391,7 @@
 				7CF76DA81CACA42500FEC1C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7CF76DA91CACA42500FEC1C9 /* Build configuration list for PBXNativeTarget "TimeGirlTests" */ = {
 			isa = XCConfigurationList;
@@ -383,6 +400,7 @@
 				7CF76DAB1CACA42500FEC1C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
