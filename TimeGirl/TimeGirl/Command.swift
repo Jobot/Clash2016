@@ -13,9 +13,9 @@ enum Command {
     case Take
     case Open
     
-    static let examineStrings = [ "examine", "look at", "view", "inspect" ]
-    static let takeStrings = [ "take", "pick up", "grab", "snatch" ]
-    static let openStrings = [ "open" ]
+    private static let examineStrings = [ "examine", "look at", "view", "inspect" ]
+    private static let takeStrings = [ "take", "pick up", "grab", "snatch" ]
+    private static let openStrings = [ "open" ]
     
     static func commandFromText(rawText: String) -> (command: Command?, remainingText: String) {
         let text = rawText.lowercaseString
