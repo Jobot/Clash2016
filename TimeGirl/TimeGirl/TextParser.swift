@@ -12,4 +12,15 @@ struct TextParser {
     func parseCommandFromText(text: String) -> Command? {
         return nil
     }
+    
+    func tokenizeText(text: String, separator: String = " ") -> [String] {
+        let whitespace = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+        let punctuation = NSCharacterSet.punctuationCharacterSet()
+        let trimmed = text.stringByTrimmingCharactersInSet(whitespace).stringByTrimmingCharactersInSet(punctuation)
+        
+        return trimmed.componentsSeparatedByString(separator).filter { (text) -> Bool in
+            let trimmed = text.stringByTrimmingCharactersInSet(whitespace).stringByTrimmingCharactersInSet(punctuation)
+            return trimmed.characters.count > 0
+        }
+    }
 }
