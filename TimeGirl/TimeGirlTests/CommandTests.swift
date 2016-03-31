@@ -27,5 +27,16 @@ class CommandTests: XCTestCase {
         XCTAssertNil(response.command)
         XCTAssert(response.remainingText == text)
     }
+    
+    func testCommandFromTextWithExamine() {
+        let text = "EXaMinE ruby"
+        let response = Command.commandFromText(text)
+        guard let command = response.command else {
+            XCTFail()
+            return
+        }
+        XCTAssert(command == .Examine)
+        XCTAssert(response.remainingText == "ruby")
+    }
 
 }
