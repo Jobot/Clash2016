@@ -8,42 +8,74 @@
 
 import Foundation
 
+enum CommandError: ErrorType {
+    case ParseError
+}
+
+struct CommandItem {
+    let command: Command
+    let strings: [String]
+}
+
 enum Command {
-    case Examine
-    case Take
-    case Open
+    case Examine(item: String)
+    case Take(item: String)
+    case Open(item: String)
     
     private static let examineStrings = [ "examine", "look at", "view", "inspect" ]
     private static let takeStrings = [ "take", "pick up", "grab", "snatch" ]
     private static let openStrings = [ "open" ]
     
-    static func commandFromText(rawText: String) -> (command: Command?, remainingText: String) {
-        let text = rawText.lowercaseString
-        
-        let examine = text.beginsWithPrefixInList(examineStrings)
-        if examine.hasPrefix {
-            let remainingText = self.remainingText(rawText, forPrefix: examine.prefix!)
-            return (.Examine, remainingText)
+    static func stringFromTokens(tokens: [String], separator: String = " ") -> String {
+        return tokens.reduce("") { (text, token) -> String in
+            let beginning = (text.characters.count > 0) ? "\(text) " : ""
+            return "\(beginning)\(token)"
         }
-        
-        let take = text.beginsWithPrefixInList(takeStrings)
-        if take.hasPrefix {
-            let remainingText = self.remainingText(rawText, forPrefix: take.prefix!)
-            return (.Take, remainingText)
-        }
-        
-        let open = text.beginsWithPrefixInList(openStrings)
-        if open.hasPrefix {
-            let remainingText = self.remainingText(rawText, forPrefix: open.prefix!)
-            return (.Open, remainingText)
-        }
-        
-        return (nil, rawText)
     }
     
-    private static func remainingText(text: String, forPrefix prefix: String) -> String {
-        let index = text.startIndex.advancedBy(prefix.characters.count + 1)
-        return text.substringFromIndex(index)
+    static func itemFromRemainingTokens(tokens: [String]) -> String? {
+        guard let item = tokens.first else {
+            return nil
+        }
+        return item
+    }
+    
+    static func command(command: Command, withRemainingTokens tokens: [String]) -> Command? {
+        guard let item = itemFromRemainingTokens(tokens) else {
+            return nil
+        }
+        
+        switch command {
+        case .Examine:
+            return .Examine(item: item)
+        case .Take:
+            return .Take(item: item)
+        case .Open:
+            return .Open(item: item)
+        }
+    }
+    
+    static func commandFromTokens(tokens: [String]) -> Command? {
+        let text = stringFromTokens(tokens).lowercaseString
+        let commands = [ CommandItem(command: .Examine(item: ""), strings: examineStrings),
+                         CommandItem(command: .Take(item: ""), strings: takeStrings),
+                         CommandItem(command: .Open(item: ""), strings: openStrings)
+        ]
+        
+        for command in commands {
+            let response = text.beginsWithPrefixInList(command.strings)
+            if response.hasPrefix {
+                let remainingTokens = self.remainingTokens(tokens, forPrefix: response.prefix!)
+                return self.command(command.command, withRemainingTokens: remainingTokens)
+            }
+        }
+        
+        return nil
+    }
+    
+    private static func remainingTokens(tokens: [String], forPrefix prefix: String) -> [String] {
+        let prefixTokens = prefix.tokenize()
+        return Array(tokens.dropFirst(prefixTokens.count))
     }
 }
 

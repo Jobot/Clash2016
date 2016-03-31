@@ -10,17 +10,21 @@ import Foundation
 
 struct TextParser {
     func parseCommandFromText(text: String) -> Command? {
-        let tokens = tokenizeText(text)
+        let tokens = text.tokenize()
+        
         guard tokens.count > 0 else {
             return nil
         }
-        return nil
+        
+        return Command.commandFromTokens(tokens)
     }
-    
-    func tokenizeText(text: String, separator: String = " ") -> [String] {
+}
+
+extension String {
+    func tokenize(separator: String = " ") -> [String] {
         let whitespace = NSCharacterSet.whitespaceAndNewlineCharacterSet()
         let punctuation = NSCharacterSet.punctuationCharacterSet()
-        let trimmed = text.stringByTrimmingCharactersInSet(whitespace).stringByTrimmingCharactersInSet(punctuation)
+        let trimmed = stringByTrimmingCharactersInSet(whitespace).stringByTrimmingCharactersInSet(punctuation)
         
         return trimmed.componentsSeparatedByString(separator).filter { (text) -> Bool in
             let trimmed = text.stringByTrimmingCharactersInSet(whitespace).stringByTrimmingCharactersInSet(punctuation)

@@ -23,14 +23,24 @@ class CommandTests: XCTestCase {
     
     func testCommandFromTextReturnsNilAndOriginalStringWithBogusCommand() {
         let text = "THIS IS A BOGUS COMMAND"
-        let response = Command.commandFromText(text)
-        XCTAssertNil(response.command)
-        XCTAssert(response.remainingText == text)
+        if let _ = Command.commandFromTokens(text.tokenize()) {
+            XCTFail()
+        }
     }
     
     func testCommandFromTextWithExamine() {
         let text = "EXaMinE ruby"
-        commandFromText(text, expectedCommand: .Examine, expectedRemainingText: "ruby")
+        guard let command = Command.commandFromTokens(text.tokenize()) else {
+            XCTFail()
+            return
+        }
+        
+        switch command {
+        case let .Examine(item):
+            XCTAssert(item == "ruby")
+        default:
+            XCTFail()
+        }
     }
     
     func testCommandFromTextWithExamineSynonyms() {
@@ -38,13 +48,33 @@ class CommandTests: XCTestCase {
                       "inspect ruby",
                       "view ruby"]
         for text in texts {
-            commandFromText(text, expectedCommand: .Examine, expectedRemainingText: "ruby")
+            guard let command = Command.commandFromTokens(text.tokenize()) else {
+                XCTFail()
+                return
+            }
+            
+            switch command {
+            case let .Examine(item):
+                XCTAssert(item == "ruby")
+            default:
+                XCTFail()
+            }
         }
     }
     
     func testCommandFromTextWithTake() {
         let text = "TAKe ruby"
-        commandFromText(text, expectedCommand: .Take, expectedRemainingText: "ruby")
+        guard let command = Command.commandFromTokens(text.tokenize()) else {
+            XCTFail()
+            return
+        }
+        
+        switch command {
+        case let .Take(item):
+            XCTAssert(item == "ruby")
+        default:
+            XCTFail()
+        }
     }
     
     func testCommandFromTextWithTakeSynonyms() {
@@ -52,22 +82,32 @@ class CommandTests: XCTestCase {
                       "grab ruby",
                       "snatch ruby" ]
         for text in texts {
-            commandFromText(text, expectedCommand: .Take, expectedRemainingText: "ruby")
+            guard let command = Command.commandFromTokens(text.tokenize()) else {
+                XCTFail()
+                return
+            }
+            
+            switch command {
+            case let .Take(item):
+                XCTAssert(item == "ruby")
+            default:
+                XCTFail()
+            }
         }
     }
     
     func testCommandFromTextWithOpen() {
         let text = "opEN the door"
-        commandFromText(text, expectedCommand: .Open, expectedRemainingText: "the door")
-    }
-    
-    func commandFromText(text: String, expectedCommand command: Command, expectedRemainingText remainingText: String) {
-        let response = Command.commandFromText(text)
-        guard let command = response.command else {
+        guard let command = Command.commandFromTokens(text.tokenize()) else {
             XCTFail()
             return
         }
-        XCTAssert(command == command)
-        XCTAssert(response.remainingText == remainingText)
+        
+        switch command {
+        case let .Open(item):
+            XCTAssert(item == "the door")
+        default:
+            XCTFail()
+        }
     }
 }

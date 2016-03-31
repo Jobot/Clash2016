@@ -34,15 +34,28 @@ class TextParserTests: XCTestCase {
         XCTAssertNil(command)
     }
     
+    func testParsingReturnsExamineCommand() {
+        guard let command = parser.parseCommandFromText("  exaMine diamond") else {
+            XCTFail()
+            return
+        }
+        switch command {
+        case let .Examine(item):
+            XCTAssert(item == "diamond")
+        default:
+            XCTFail()
+        }
+    }
+    
     func testTokenizingReturnsCorrectNumberOfItems() {
         let text = "This is a normal sentence"
-        let tokens = parser.tokenizeText(text)
+        let tokens = text.tokenize()
         XCTAssert(tokens.count == 5)
     }
     
     func testTokenizingHandlesExtraSpaces() {
         let text = "This is text with too  many   spaces"
-        let tokens = parser.tokenizeText(text)
+        let tokens = text.tokenize()
         XCTAssert(tokens.count == 7)
     }
     
@@ -50,7 +63,7 @@ class TextParserTests: XCTestCase {
         let punctuation = [ ".", "?", "!" ]
         for ending in punctuation {
             let text = "This is a sentence with punctuation\(ending)"
-            let tokens = parser.tokenizeText(text)
+            let tokens = text.tokenize()
             guard let lastToken = tokens.last else {
                 XCTFail()
                 return
