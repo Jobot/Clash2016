@@ -679,21 +679,21 @@
                                 <rect key="frame" x="20" y="65" width="680" height="510"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="Trojan Horse" id="NNY-Up-eMe"/>
                             </imageView>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLM-qP-MBr">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLM-qP-MBr">
                                 <rect key="frame" x="717" y="50" width="287" height="570"/>
                                 <clipView key="contentView" id="sEs-op-JeV">
-                                    <rect key="frame" x="1" y="1" width="285" height="568"/>
+                                    <rect key="frame" x="1" y="1" width="270" height="568"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="UKS-9J-Riq">
-                                            <rect key="frame" x="0.0" y="0.0" width="285" height="568"/>
+                                        <textView editable="NO" selectable="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="UKS-9J-Riq">
+                                            <rect key="frame" x="0.0" y="0.0" width="270" height="568"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <size key="minSize" width="285" height="568"/>
+                                            <size key="minSize" width="270" height="568"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="285" height="568"/>
+                                            <size key="minSize" width="270" height="568"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                         </textView>
                                     </subviews>
@@ -703,8 +703,8 @@
                                     <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="5FV-dV-eNS">
-                                    <rect key="frame" x="-100" y="-100" width="15" height="568"/>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="5FV-dV-eNS">
+                                    <rect key="frame" x="271" y="1" width="15" height="568"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
