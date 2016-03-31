@@ -60,10 +60,19 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     }
     
     func appendMessage(message: String, toTextView textView: NSTextView) {
-        guard let string = textView.string else {
+        guard let storage = textView.textStorage, string = textView.string else {
             return
         }
         
-        textView.string = "\(string)\n\(message)"
+        if string.characters.count > 0 {
+            let newLine = NSAttributedString(string: "\n")
+            storage.appendAttributedString(newLine)
+        }
+        
+        let attributedMessage = NSAttributedString(string: message)
+        storage.appendAttributedString(attributedMessage)
+        
+        let visibleRange = NSRange(location: string.characters.count, length: 0)
+        textView.scrollRangeToVisible(visibleRange)
     }
 }
