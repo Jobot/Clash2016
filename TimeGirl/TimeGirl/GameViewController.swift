@@ -37,9 +37,8 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         guard let location = region.locations().first else {
             fatalError("Unable to read first location")
         }
-        state = GameState(inventory: [], location: location)
-        
-        view.layer?.backgroundColor = location.region.gemColor().CGColor
+        state = GameState(delegate: self, inventory: [], location: location)
+        changeToLocation(location)
         
         messenger = Messenger(state: state)
     }
@@ -118,5 +117,17 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
             let visibleRange = NSRange(location: newString.characters.count, length: 0)
             textView.scrollRangeToVisible(visibleRange)
         }
+    }
+    
+    // MARK: - State Changes
+    func changeToLocation(toLocation: Location, fromLocation: Location? = nil) {
+        // TODO: Animation would be nice
+        view.layer?.backgroundColor = toLocation.region.gemColor().CGColor
+    }
+}
+
+extension GameViewController: GameStateDelegate {
+    func gameState(gameState: GameState, movedToLocation toLocation: Location, fromLocation: Location) {
+        changeToLocation(toLocation, fromLocation: fromLocation)
     }
 }
