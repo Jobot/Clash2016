@@ -15,6 +15,7 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var textField: NSTextField!
     
     var parser: TextParser!
+    var state: GameState!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,7 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         textField.placeholderAttributedString = NSAttributedString(string: placeholderString, attributes: attributes)
         
         parser = TextParser()
+        state = GameState(inventory: [], locations: [])
     }
     
     override func controlTextDidEndEditing(obj: NSNotification) {
@@ -62,6 +64,8 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
             message = messageForTakeItem(item)
         case let .Open(item):
             message = messageForOpenItem(item)
+        case .Inventory:
+            message = messageForInventory()
         }
         
         echoResponse(message, toTextView: textView)
@@ -138,5 +142,21 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
                          "You cannot open \(item) right now."
         ]
         return randomMessageFromMessages(messages)
+    }
+    
+    func messageForInventory() -> String {
+        let messages = [ "You have nothing in your inventory.",
+                         "Sadly, you're pockets are empty.",
+                         "You have nothing to your name.",
+                         "There are no items in your inventory.",
+                         "Your inventory is empty."
+        ]
+        if state.inventory.count < 1 {
+            return randomMessageFromMessages(messages)
+        } else {
+            return state.inventory.reduce("Inventory:\n") { (message, item) -> String in
+                return "\t\(item)\n"
+            }
+        }
     }
 }

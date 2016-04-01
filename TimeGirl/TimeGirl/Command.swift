@@ -21,10 +21,12 @@ enum Command {
     case Examine(item: String)
     case Take(item: String)
     case Open(item: String)
+    case Inventory
     
     private static let examineStrings = [ "examine", "look at", "view", "inspect" ]
     private static let takeStrings = [ "take", "pick up", "grab", "snatch" ]
     private static let openStrings = [ "open" ]
+    private static let inventoryStrings = [ "inventory", "show inventory" ]
     
     static func stringFromTokens(tokens: [String], separator: String = " ") -> String {
         return tokens.reduce("") { (text, token) -> String in
@@ -65,6 +67,13 @@ enum Command {
     }
     
     static func command(command: Command, withRemainingTokens tokens: [String]) -> Command? {
+        switch command {
+        case .Inventory:
+            return .Inventory
+        case .Examine, .Take, .Open:
+            break
+        }
+        
         guard let item = itemFromRemainingTokens(tokens) else {
             return nil
         }
@@ -76,14 +85,19 @@ enum Command {
             return .Take(item: item)
         case .Open:
             return .Open(item: item)
+        case .Inventory:
+            break
         }
+        
+        return nil
     }
     
     static func commandFromTokens(tokens: [String]) -> Command? {
         let text = stringFromTokens(tokens).lowercaseString
         let commands = [ CommandItem(command: .Examine(item: ""), strings: examineStrings),
                          CommandItem(command: .Take(item: ""), strings: takeStrings),
-                         CommandItem(command: .Open(item: ""), strings: openStrings)
+                         CommandItem(command: .Open(item: ""), strings: openStrings),
+                         CommandItem(command: .Inventory, strings: inventoryStrings)
         ]
         
         for command in commands {
@@ -107,6 +121,8 @@ extension String {
     func beginsWithPrefixInList(prefixes: [String]) -> (hasPrefix: Bool, prefix: String?) {
         for prefix in prefixes {
             if self.hasPrefix("\(prefix) ") {
+                return (true, prefix)
+            } else if self == prefix {
                 return (true, prefix)
             }
         }
