@@ -26,6 +26,12 @@ struct Messenger {
     }
     
     func messageForExamineItem(item: String) -> String {
+        if let knownItem = Inventory(rawValue: item) {
+            if state.inventory.contains(knownItem) {
+                return knownItem.describe()
+            }
+        }
+        
         let messages = [ "You do not see \(item) here.",
                          "I don't see \(item). Do you see \(item)?",
                          "\(item) is not here."
@@ -66,7 +72,7 @@ struct Messenger {
             return randomMessageFromMessages(emptyMessages)
         } else {
             return state.inventory.reduce(randomMessageFromMessages(fullMessages)) { (message, item) -> String in
-                return "\(message)\n\t\(item)"
+                return "\(message)\n\t\(item.rawValue)"
             }
         }
     }

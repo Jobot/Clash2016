@@ -14,12 +14,12 @@ protocol GameStateDelegate {
 
 class GameState {
     let delegate: GameStateDelegate
-    var inventory: [String]
+    var inventory: [Inventory]
     var location: Location
     
     var flashlightIsOn = false
     
-    init(delegate: GameStateDelegate, inventory: [String], location: Location) {
+    init(delegate: GameStateDelegate, inventory: [Inventory], location: Location) {
         self.delegate = delegate
         self.inventory = inventory
         self.location = location

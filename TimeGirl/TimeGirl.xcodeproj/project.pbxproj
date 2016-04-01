@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7CC53B641CAF3709005B0FDE /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC53B631CAF3709005B0FDE /* Inventory.swift */; };
 		7CF76D901CACA42500FEC1C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF76D8F1CACA42500FEC1C9 /* AppDelegate.swift */; };
 		7CF76D941CACA42500FEC1C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CF76D931CACA42500FEC1C9 /* Assets.xcassets */; };
 		7CF76D971CACA42500FEC1C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CF76D951CACA42500FEC1C9 /* Main.storyboard */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7CC53B631CAF3709005B0FDE /* Inventory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 		7CF76D8C1CACA42500FEC1C9 /* TimeGirl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeGirl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF76D8F1CACA42500FEC1C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7CF76D931CACA42500FEC1C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			children = (
 				7CF76DBC1CAE1CD700FEC1C9 /* GameState.swift */,
 				7CF76DB91CAE17C900FEC1C9 /* Location.swift */,
+				7CC53B631CAF3709005B0FDE /* Inventory.swift */,
 			);
 			name = Games;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CC53B641CAF3709005B0FDE /* Inventory.swift in Sources */,
 				7CF76DB81CADC9BD00FEC1C9 /* GameViewController.swift in Sources */,
 				7CF76D901CACA42500FEC1C9 /* AppDelegate.swift in Sources */,
 				7CF76DBA1CAE17C900FEC1C9 /* Location.swift in Sources */,

@@ -42,12 +42,12 @@ enum Region {
         switch self {
         case .MostlyEmptyRoom:
             return [
-                Location(name: MostlyEmptyRoomLocation.MostlyEmptyRoom.rawValue, region: self, inventory: [ "A red gem" ])
+                Location(name: MostlyEmptyRoomLocation.MostlyEmptyRoom.rawValue, region: self, inventory: [ .RedGem ])
             ]
         case .Pompeii:
             return [
                 Location(name: PompeiiLocation.TownOfPompeii.rawValue, region: self, inventory: []),
-                Location(name: PompeiiLocation.InsideTheVolcano.rawValue, region: self, inventory: [ "An orange gem" ])
+                Location(name: PompeiiLocation.InsideTheVolcano.rawValue, region: self, inventory: [ .OrangeGem ])
             ]
         case .Troy:
             return [
@@ -61,7 +61,7 @@ enum Region {
 class Location {
     let name: String
     let region: Region
-    var inventory: [String]
+    var inventory: [Inventory]
     var backgroundImage: NSImage? {
         var imagePath = ""
         switch region {
@@ -102,7 +102,7 @@ class Location {
     }
     var descriptionGiven: Bool = false
     
-    init(name: String, region: Region, inventory: [String]) {
+    init(name: String, region: Region, inventory: [Inventory]) {
         self.name = name
         self.region = region
         self.inventory = inventory
