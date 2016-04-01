@@ -28,7 +28,7 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         textField.placeholderAttributedString = NSAttributedString(string: placeholderString, attributes: attributes)
         
         parser = TextParser()
-        state = GameState(inventory: [], locations: [])
+        state = GameState(inventory: ["A shiny marble", "A peppermint", "Some pocket lint" ], locations: [])
     }
     
     override func controlTextDidEndEditing(obj: NSNotification) {
@@ -101,8 +101,10 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         let attributedMessage = NSAttributedString(string: capitalizedMessage, attributes: attributes)
         storage.appendAttributedString(attributedMessage)
         
-        let visibleRange = NSRange(location: string.characters.count, length: 0)
-        textView.scrollRangeToVisible(visibleRange)
+        if let newString = textView.string {
+            let visibleRange = NSRange(location: newString.characters.count, length: 0)
+            textView.scrollRangeToVisible(visibleRange)
+        }
     }
     
     // MARK: - Messages
@@ -145,17 +147,22 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     }
     
     func messageForInventory() -> String {
-        let messages = [ "You have nothing in your inventory.",
+        let emptyMessages = [ "You have nothing in your inventory.",
                          "Sadly, you're pockets are empty.",
                          "You have nothing to your name.",
                          "There are no items in your inventory.",
                          "Your inventory is empty."
         ]
+        let fullMessages = [ "Your inventory contains:",
+                             "You have in your inventory:",
+                             "You currently possess:",
+                             "You are the proud owner of:"
+        ]
         if state.inventory.count < 1 {
-            return randomMessageFromMessages(messages)
+            return randomMessageFromMessages(emptyMessages)
         } else {
-            return state.inventory.reduce("Inventory:\n") { (message, item) -> String in
-                return "\t\(item)\n"
+            return state.inventory.reduce(randomMessageFromMessages(fullMessages)) { (message, item) -> String in
+                return "\(message)\n\t\(item)"
             }
         }
     }
