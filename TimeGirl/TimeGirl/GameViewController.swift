@@ -48,7 +48,7 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
             guard let location = region.locations().first else {
                 fatalError("Unable to read first location")
             }
-            state = GameState(delegate: self, inventory: [], location: location)
+            state = GameState(delegate: self, inventory: [ "A flashlight" ], location: location)
             appDelegate.gameState = state
             messenger = Messenger(state: state)
         }
