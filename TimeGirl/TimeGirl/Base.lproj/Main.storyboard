@@ -4,6 +4,7 @@
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -672,28 +673,28 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="GameViewController" customModule="TimeGirl" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="640"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1030" height="640"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5f8-KV-eKH">
-                                <rect key="frame" x="20" y="65" width="680" height="510"/>
+                                <rect key="frame" x="20" y="20" width="680" height="510"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="Trojan Horse" id="NNY-Up-eMe"/>
                             </imageView>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLM-qP-MBr">
-                                <rect key="frame" x="717" y="50" width="287" height="570"/>
+                                <rect key="frame" x="720" y="50" width="290" height="570"/>
                                 <clipView key="contentView" id="sEs-op-JeV">
-                                    <rect key="frame" x="1" y="1" width="270" height="568"/>
+                                    <rect key="frame" x="1" y="1" width="273" height="568"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" selectable="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="UKS-9J-Riq">
-                                            <rect key="frame" x="0.0" y="0.0" width="270" height="568"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="273" height="568"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <size key="minSize" width="270" height="568"/>
+                                            <size key="minSize" width="273" height="568"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="270" height="568"/>
+                                            <size key="minSize" width="273" height="568"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                         </textView>
                                     </subviews>
@@ -704,36 +705,98 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="5FV-dV-eNS">
-                                    <rect key="frame" x="271" y="1" width="15" height="568"/>
+                                    <rect key="frame" x="274" y="1" width="15" height="568"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wPg-yH-iB4">
-                                <rect key="frame" x="717" y="20" width="287" height="22"/>
+                                <rect key="frame" x="720" y="20" width="290" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="mOt-nY-Ma9">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </textFieldCell>
                             </textField>
+                            <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yaJ-76-gRa">
+                                <rect key="frame" x="20" y="538" width="680" height="82"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PMZ-kl-k1T">
+                                        <rect key="frame" x="0.0" y="16" width="90" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="RDd-BN-knh"/>
+                                    </imageView>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FZb-K6-UGU">
+                                        <rect key="frame" x="98" y="16" width="91" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="bAU-Uj-4Wa"/>
+                                    </imageView>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QBC-jU-geo">
+                                        <rect key="frame" x="197" y="16" width="90" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="Gc6-RP-RMo"/>
+                                    </imageView>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NcT-sT-wx0">
+                                        <rect key="frame" x="295" y="16" width="90" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="qyY-p6-WXx"/>
+                                    </imageView>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0gp-1y-iHE">
+                                        <rect key="frame" x="393" y="16" width="91" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="TrD-c3-Jpk"/>
+                                    </imageView>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zIX-Jd-UHa">
+                                        <rect key="frame" x="492" y="16" width="90" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="Swn-Ku-49L"/>
+                                    </imageView>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ws5-VN-Fld">
+                                        <rect key="frame" x="590" y="16" width="90" height="50"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="q7f-YK-Tpi"/>
+                                    </imageView>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="5f8-KV-eKH" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="18S-XX-IuW"/>
-                            <constraint firstItem="5f8-KV-eKH" firstAttribute="width" secondItem="m2S-Jp-Qdl" secondAttribute="width" multiplier="0.7" constant="-36.799999999999955" id="3ok-Il-Bd5"/>
+                            <constraint firstItem="5f8-KV-eKH" firstAttribute="width" secondItem="m2S-Jp-Qdl" secondAttribute="width" multiplier="0.66" id="3ok-Il-Bd5"/>
+                            <constraint firstItem="DLM-qP-MBr" firstAttribute="leading" secondItem="yaJ-76-gRa" secondAttribute="trailing" constant="20" id="3uy-p7-5eO"/>
                             <constraint firstItem="wPg-yH-iB4" firstAttribute="top" secondItem="DLM-qP-MBr" secondAttribute="bottom" constant="8" id="6mW-c1-twG"/>
-                            <constraint firstItem="DLM-qP-MBr" firstAttribute="leading" secondItem="5f8-KV-eKH" secondAttribute="trailing" constant="17" id="99u-BA-cMB"/>
                             <constraint firstItem="wPg-yH-iB4" firstAttribute="leading" secondItem="DLM-qP-MBr" secondAttribute="leading" id="9Yp-TA-390"/>
+                            <constraint firstAttribute="bottom" secondItem="5f8-KV-eKH" secondAttribute="bottom" constant="20" id="F5w-bO-iR8"/>
+                            <constraint firstItem="wPg-yH-iB4" firstAttribute="leading" secondItem="5f8-KV-eKH" secondAttribute="trailing" constant="20" id="Jvm-VP-8IF"/>
+                            <constraint firstItem="5f8-KV-eKH" firstAttribute="top" secondItem="yaJ-76-gRa" secondAttribute="bottom" constant="8" id="VDi-Qk-fmw"/>
+                            <constraint firstItem="yaJ-76-gRa" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="Vx7-gi-leY"/>
+                            <constraint firstItem="yaJ-76-gRa" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="YjY-Rg-HDs"/>
                             <constraint firstItem="DLM-qP-MBr" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="d1a-Sq-coF"/>
+                            <constraint firstItem="5f8-KV-eKH" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="die-0t-ggF"/>
                             <constraint firstAttribute="bottom" secondItem="wPg-yH-iB4" secondAttribute="bottom" constant="20" id="goC-Ei-YOw"/>
                             <constraint firstItem="wPg-yH-iB4" firstAttribute="trailing" secondItem="DLM-qP-MBr" secondAttribute="trailing" id="mxU-SC-lBO"/>
                             <constraint firstAttribute="trailing" secondItem="DLM-qP-MBr" secondAttribute="trailing" constant="20" id="tgA-sP-5JU"/>
-                            <constraint firstItem="5f8-KV-eKH" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="wfX-UH-RGX"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="blueGemImageView" destination="0gp-1y-iHE" id="zi5-Vx-1gP"/>
+                        <outlet property="greenGemImageView" destination="NcT-sT-wx0" id="409-9k-bNj"/>
                         <outlet property="imageView" destination="5f8-KV-eKH" id="GJA-eO-htm"/>
+                        <outlet property="indigoGemImageView" destination="zIX-Jd-UHa" id="9oz-qc-fit"/>
+                        <outlet property="orangeGemImageView" destination="FZb-K6-UGU" id="H1X-3b-Bta"/>
+                        <outlet property="redGemImageView" destination="PMZ-kl-k1T" id="API-im-TzM"/>
                         <outlet property="textField" destination="wPg-yH-iB4" id="kC5-AZ-Myf"/>
                         <outlet property="textView" destination="UKS-9J-Riq" id="jRX-wN-l0j"/>
+                        <outlet property="violetGemImageView" destination="Ws5-VN-Fld" id="1tK-e2-FQU"/>
+                        <outlet property="yellowGemImageView" destination="QBC-jU-geo" id="jns-gw-rCr"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

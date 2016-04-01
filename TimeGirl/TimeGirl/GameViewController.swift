@@ -14,6 +14,14 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var textView: NSTextView!
     @IBOutlet var textField: NSTextField!
     
+    @IBOutlet var redGemImageView: NSImageView!
+    @IBOutlet var orangeGemImageView: NSImageView!
+    @IBOutlet var yellowGemImageView: NSImageView!
+    @IBOutlet var greenGemImageView: NSImageView!
+    @IBOutlet var blueGemImageView: NSImageView!
+    @IBOutlet var indigoGemImageView: NSImageView!
+    @IBOutlet var violetGemImageView: NSImageView!
+    
     var parser: TextParser!
     var state: GameState!
     var messenger: Messenger!
