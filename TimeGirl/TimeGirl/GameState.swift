@@ -8,7 +8,12 @@
 
 import Foundation
 
-struct GameState {
+class GameState {
     var inventory: [String]
     var locations: [Location]
+    
+    init(inventory: [String], locations: [Location]) {
+        self.inventory = inventory
+        self.locations = locations
+    }
 }
