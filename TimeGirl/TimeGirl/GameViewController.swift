@@ -42,14 +42,21 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         textField.placeholderAttributedString = NSAttributedString(string: placeholderString, attributes: attributes)
         
         parser = TextParser()
+        
+        if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+            let region = Region.MostlyEmptyRoom
+            guard let location = region.locations().first else {
+                fatalError("Unable to read first location")
+            }
+            state = GameState(delegate: self, inventory: [], location: location)
+            appDelegate.gameState = state
+        }
     }
     
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        if state == nil {
-            configureInitialState()
-        }
+        changeToLocation(state.location)
         
         enableRedGem(true)
         enableOrangeGem(true)
@@ -179,17 +186,6 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     }
     
     // MARK: - State Changes
-    func configureInitialState() {
-        let region = Region.Pompeii
-        guard let location = region.locations().first else {
-            fatalError("Unable to read first location")
-        }
-        state = GameState(delegate: self, inventory: [], location: location)
-        changeToLocation(location)
-        
-        messenger = Messenger(state: state)
-    }
-    
     func changeToLocation(toLocation: Location, fromLocation: Location? = nil) {
         // TODO: Animation would be nice
         guard let layer = view.layer else {

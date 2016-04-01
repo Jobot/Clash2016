@@ -17,6 +17,8 @@ class GameState {
     var inventory: [String]
     var location: Location
     
+    var flashlightIsOn = false
+    
     init(delegate: GameStateDelegate, inventory: [String], location: Location) {
         self.delegate = delegate
         self.inventory = inventory
