@@ -22,9 +22,6 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         super.viewDidLoad()
         // Do view setup here.
         
-        // FIXME: This doesn't always work. I think it gets deallocated too quickly.
-        view.layer?.backgroundColor = NSColor.magentaColor().CGColor
-        
         imageView.layer?.cornerRadius = 5.0
         imageView.layer?.masksToBounds = true
         
@@ -41,6 +38,8 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
             fatalError("Unable to read first location")
         }
         state = GameState(inventory: [], location: location)
+        
+        view.layer?.backgroundColor = location.region.gemColor().CGColor
         
         messenger = Messenger(state: state)
     }
