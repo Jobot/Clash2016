@@ -22,6 +22,8 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         super.viewDidLoad()
         // Do view setup here.
         
+        view.layer?.backgroundColor = NSColor.magentaColor().CGColor
+        
         textField.delegate = self
         
         let attributes = [ NSForegroundColorAttributeName : NSColor.grayColor() ]
