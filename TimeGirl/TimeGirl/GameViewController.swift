@@ -22,7 +22,11 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         super.viewDidLoad()
         // Do view setup here.
         
+        // FIXME: This doesn't always work. I think it gets deallocated too quickly.
         view.layer?.backgroundColor = NSColor.magentaColor().CGColor
+        
+        imageView.layer?.cornerRadius = 5.0
+        imageView.layer?.masksToBounds = true
         
         textField.delegate = self
         
@@ -31,8 +35,13 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         textField.placeholderAttributedString = NSAttributedString(string: placeholderString, attributes: attributes)
         
         parser = TextParser()
-        state = GameState(inventory: ["A shiny marble", "A peppermint", "Some pocket lint" ], locations: [])
-    
+        
+        let region = Region.Pompeii
+        guard let location = region.locations().first else {
+            fatalError("Unable to read first location")
+        }
+        state = GameState(inventory: [], location: location)
+        
         messenger = Messenger(state: state)
     }
     

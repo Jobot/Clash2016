@@ -10,10 +10,10 @@ import Foundation
 
 class GameState {
     var inventory: [String]
-    var locations: [Location]
+    var location: Location
     
-    init(inventory: [String], locations: [Location]) {
+    init(inventory: [String], location: Location) {
         self.inventory = inventory
-        self.locations = locations
+        self.location = location
     }
 }
