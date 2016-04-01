@@ -76,7 +76,7 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     }
     
     func echoResponse(response: String, toTextView textView: NSTextView) {
-        appendMessage(response, toTextView: textView)
+        appendMessage("\(response)\n", toTextView: textView)
     }
     
     func appendMessage(message: String, toTextView textView: NSTextView, textColor: NSColor = NSColor.whiteColor()) {
