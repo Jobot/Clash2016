@@ -50,6 +50,14 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         if state == nil {
             configureInitialState()
         }
+        
+        enableRedGem(true)
+        enableOrangeGem(true)
+        enableYellowGem(false)
+        enableGreenGem(true)
+        enableBlueGem(false)
+        enableIndigoGem(false)
+        enableVioletGem(true)
     }
     
     override func controlTextDidEndEditing(obj: NSNotification) {
