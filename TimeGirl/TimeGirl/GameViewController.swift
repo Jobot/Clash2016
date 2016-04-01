@@ -128,6 +128,48 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         }
     }
     
+    // MARK: - Gem Views
+    func enableImageView(imageView: NSImageView, enabled: Bool, imagePath: String) {
+        guard enabled else {
+            imageView.image = nil
+            return
+        }
+        
+        guard let image = NSImage(named: imagePath) else {
+            fatalError("Cannot find image for gem")
+        }
+        
+        imageView.image = image
+    }
+    
+    func enableRedGem(enabled: Bool) {
+        enableImageView(redGemImageView, enabled: enabled, imagePath: "RedGem")
+    }
+    
+    func enableOrangeGem(enabled: Bool) {
+        enableImageView(orangeGemImageView, enabled: enabled, imagePath: "OrangeGem")
+    }
+    
+    func enableYellowGem(enabled: Bool) {
+        enableImageView(yellowGemImageView, enabled: enabled, imagePath: "YellowGem")
+    }
+    
+    func enableGreenGem(enabled: Bool) {
+        enableImageView(greenGemImageView, enabled: enabled, imagePath: "GreenGem")
+    }
+    
+    func enableBlueGem(enabled: Bool) {
+        enableImageView(blueGemImageView, enabled: enabled, imagePath: "BlueGem")
+    }
+    
+    func enableIndigoGem(enabled: Bool) {
+        enableImageView(indigoGemImageView, enabled: enabled, imagePath: "IndigoGem")
+    }
+    
+    func enableVioletGem(enabled: Bool) {
+        enableImageView(violetGemImageView, enabled: enabled, imagePath: "VioletGem")
+    }
+    
     // MARK: - State Changes
     func configureInitialState() {
         let region = Region.Pompeii
