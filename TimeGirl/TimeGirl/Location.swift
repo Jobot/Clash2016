@@ -58,7 +58,7 @@ enum Region {
     }
 }
 
-struct Location {
+class Location {
     let name: String
     let region: Region
     var inventory: [String]
@@ -98,7 +98,7 @@ struct Location {
         self.inventory = inventory
     }
     
-    mutating func describeLocation() -> String {
+    func describeLocation() -> String {
         if descriptionGiven {
             return secondDescription()
         } else {

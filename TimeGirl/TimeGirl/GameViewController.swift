@@ -50,6 +50,7 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
             }
             state = GameState(delegate: self, inventory: [], location: location)
             appDelegate.gameState = state
+            messenger = Messenger(state: state)
         }
     }
     
@@ -196,6 +197,9 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         layer.backgroundColor = toLocation.region.gemColor().CGColor
         
         imageView.image = toLocation.backgroundImage
+        
+        appendMessage(toLocation.describeLocation(), toTextView: textView)
+        appendMessage(" ", toTextView: textView)
     }
 }
 
