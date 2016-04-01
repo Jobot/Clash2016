@@ -66,7 +66,11 @@ class Location {
         var imagePath = ""
         switch region {
         case .MostlyEmptyRoom:
-            imagePath = "EmptyRoom"
+            if flashlightIsOn {
+                imagePath = "EmptyRoom"
+            } else {
+                imagePath = "DarkEmptyRoom"
+            }
         case .Pompeii:
             guard let locationName = PompeiiLocation(rawValue: name) else {
                 fatalError("Location name \"\(name)\" does not match enum")
@@ -89,6 +93,12 @@ class Location {
             }
         }
         return NSImage(named: imagePath)
+    }
+    var flashlightIsOn: Bool {
+        guard let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate else {
+            fatalError("Unable to retrieve App Delegate")
+        }
+        return appDelegate.gameState.flashlightIsOn
     }
     var descriptionGiven: Bool = false
     
@@ -119,11 +129,6 @@ class Location {
     private func secondDescription() -> String {
         switch region {
         case .MostlyEmptyRoom:
-            var flashlightIsOn = false
-            if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
-                flashlightIsOn = appDelegate.gameState.flashlightIsOn
-            }
-            
             if flashlightIsOn {
                 return "You are in a mostly empty room. To your left you see a door. To your right you see a strange, star-shaped machine. You notice each point of the star has what looks like an empty mounting bracket. There is a big red gem lying on the floor."
             } else {
