@@ -25,13 +25,13 @@ enum Region {
         switch self {
         case .Pompeii:
             return [
-                Location(name: "The town of Pompeii", region: self, inventory: []),
+                Location(name: "Town of Pompeii", region: self, inventory: []),
                 Location(name: "Inside the Volcano", region: self, inventory: [ "An orange gem" ])
             ]
         case .Troy:
             return [
-                Location(name: "The wall of Troy", region: self, inventory: [ ]),
-                Location(name: "The town of Troy", region: self, inventory: [ ])
+                Location(name: "Gates of Troy", region: self, inventory: [ ]),
+                Location(name: "Town of Troy", region: self, inventory: [ ])
             ]
         }
     }
@@ -41,4 +41,18 @@ struct Location {
     let name: String
     let region: Region
     var inventory: [String]
+    var backgroundImage: NSImage? {
+        switch region {
+        case .Pompeii:
+            switch name {
+                case "Town of Pompeii":
+                return NSImage(named: "TownOfPompeii")
+            default:
+                break
+            }
+        case .Troy:
+            break
+        }
+        return nil
+    }
 }

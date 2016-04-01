@@ -22,6 +22,8 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         super.viewDidLoad()
         // Do view setup here.
         
+        view.wantsLayer = true
+        
         imageView.layer?.cornerRadius = 5.0
         imageView.layer?.masksToBounds = true
         
@@ -32,15 +34,14 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         textField.placeholderAttributedString = NSAttributedString(string: placeholderString, attributes: attributes)
         
         parser = TextParser()
+    }
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
         
-        let region = Region.Pompeii
-        guard let location = region.locations().first else {
-            fatalError("Unable to read first location")
+        if state == nil {
+            configureInitialState()
         }
-        state = GameState(delegate: self, inventory: [], location: location)
-        changeToLocation(location)
-        
-        messenger = Messenger(state: state)
     }
     
     override func controlTextDidEndEditing(obj: NSNotification) {
@@ -120,9 +121,27 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     }
     
     // MARK: - State Changes
+    func configureInitialState() {
+        let region = Region.Pompeii
+        guard let location = region.locations().first else {
+            fatalError("Unable to read first location")
+        }
+        state = GameState(delegate: self, inventory: [], location: location)
+        changeToLocation(location)
+        
+        messenger = Messenger(state: state)
+    }
+    
     func changeToLocation(toLocation: Location, fromLocation: Location? = nil) {
         // TODO: Animation would be nice
-        view.layer?.backgroundColor = toLocation.region.gemColor().CGColor
+        guard let layer = view.layer else {
+            print("No layer found!")
+            return
+        }
+        
+        layer.backgroundColor = toLocation.region.gemColor().CGColor
+        
+        imageView.image = toLocation.backgroundImage
     }
 }
 
