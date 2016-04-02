@@ -28,7 +28,15 @@ enum EvangelineState {
         switch self {
         case .Happy:
             return NSImage(named: "EvangelineSmiling")
-        case .Absent, .Sad, .Curious, .Mad, .Frightened:
+        case .Sad:
+            return NSImage(named: "EvangelineSad")
+        case .Curious:
+            return NSImage(named: "EvangelineCurious")
+        case .Mad:
+            return NSImage(named: "EvangelineMad")
+        case .Frightened:
+            return NSImage(named: "EvangelineFrightened")
+        case .Absent:
             return nil
         }
     }
@@ -77,7 +85,7 @@ class GameState {
         inventory.append(item)
         if item == .Evangeline {
             dispatchLater {
-                self.evangelineState = .Happy
+                self.evangelineState = .Curious
                 self.delegate.gameState(self, didChangeEvangelineState: self.evangelineState)
             }
         }
