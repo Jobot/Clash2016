@@ -11,6 +11,11 @@ import Foundation
 struct Messenger {
     
     let state: GameState
+    var knowsEvangeline = false
+    
+    init(state: GameState) {
+        self.state = state
+    }
     
     func randomMessageFromMessages(messages: [String]) -> String {
         let index = random() % messages.count
@@ -223,5 +228,33 @@ struct Messenger {
         }
         
         return messageForUnknownText("")
+    }
+    
+    mutating func messageForTalkToItem(item: CommandAssociatedValue) -> String {
+        if !state.hasItemInInventory(item.recognizedItem) && !state.location.inventory.contains(item.recognizedItem) {
+            return "Talking to yourself again?"
+        }
+        
+        if item.recognizedItem == .Evangeline {
+            return talkToEvangeline()
+        }
+        
+        let itemName = item.recognizedItem.rawValue
+        let messages = [
+            "You talk to \(itemName). It does not respond.",
+            "You would feel silly taking to \(itemName).",
+            "Have you ever heard of talking to \(itemName)?",
+            "That wouldn't solve anything."
+        ]
+        return randomMessageFromMessages(messages)
+    }
+    
+    mutating func talkToEvangeline() -> String {
+        if !knowsEvangeline {
+            knowsEvangeline = true
+            return "You talk to the strange girl. She says her name is Evangeline."
+        }
+        
+        return "You talk to Evangeline. She seems nice."
     }
 }

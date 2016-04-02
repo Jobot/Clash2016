@@ -95,6 +95,14 @@ class Location {
         }
         return NSImage(named: imagePath)
     }
+    var backgroundMusicPath: String? {
+        switch region {
+        case .Pompeii:
+            return NSBundle.mainBundle().pathForSoundResource("Pompeii")
+        default:
+            return nil
+        }
+    }
     var flashlightIsOn: Bool {
         guard let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate else {
             fatalError("Unable to retrieve App Delegate")
@@ -106,6 +114,12 @@ class Location {
             fatalError("Unable to retrieve App Delegate")
         }
         return !appDelegate.gameState.hasItemInInventory(.RedGem)
+    }
+    var evangelineIsInParty: Bool {
+        guard let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate else {
+            fatalError("Unable to retrieve App Delegate")
+        }
+        return appDelegate.gameState.hasItemInInventory(.Evangeline)
     }
     var descriptionGiven: Bool = false
     
@@ -144,7 +158,8 @@ class Location {
                 return "You are in a dark room. There's not much to see in the dark."
             }
         case .Pompeii:
-            return "You are standing in an ancient city. The city is bustling with activity. Smoke looms in the distance. On the ground behind you is the strange machine that brought you here.\n\nYou see a strange girl in the crowd. She is looking at you."
+            let girlText = evangelineIsInParty ? "" : "\n\nYou see a strange girl in the crowd. She is looking at you."
+            return "You are standing in an ancient city. The city is bustling with activity. Smoke looms in the distance. On the ground behind you is the strange machine that brought you here.\(girlText)"
         default:
             fatalError("Not yet implemented")
         }

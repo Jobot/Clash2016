@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import AVFoundation
 
 class GameViewController: NSViewController, NSTextFieldDelegate {
 
@@ -25,6 +26,7 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     var parser: TextParser!
     var state: GameState!
     var messenger: Messenger!
+    var audioPlayer: AVAudioPlayer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,6 +131,11 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
                 fatalError("Error unwrapping item")
             }
             message = messenger.messageForUseItem(item)
+        case let .Talk(item):
+            guard let item = item else {
+                fatalError("Error unwrapping item")
+            }
+            message = messenger.messageForTalkToItem(item)
         }
         
         echoResponse(message, toTextView: textView)
@@ -232,6 +239,11 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
 extension GameViewController: GameStateDelegate {
     func gameState(gameState: GameState, movedToLocation toLocation: Location, fromLocation: Location) {
         changeToLocation(toLocation, fromLocation: fromLocation)
+        if let musicPath = toLocation.backgroundMusicPath {
+            playBackgroundMusic(musicPath)
+        } else {
+            print("Unable to find background music")
+        }
     }
     
     func gameState(gameState: GameState, didEnableFlashlight enabled: Bool) {
@@ -258,5 +270,21 @@ extension GameViewController: GameStateDelegate {
     func gameState(gameState: GameState, didSendMessage message: String) {
         appendMessage(message, toTextView: textView)
         appendMessage(" ", toTextView: textView)
+    }
+}
+
+extension GameViewController {
+    func playBackgroundMusic(path: String) {
+        guard let data = NSData(contentsOfFile: path) else {
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(data: data)
+            audioPlayer?.numberOfLoops = -1
+            audioPlayer?.play()
+        } catch {
+            print("Unable to play music")
+        }
     }
 }
