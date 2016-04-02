@@ -14,6 +14,7 @@ enum MostlyEmptyRoomLocation: String {
 
 enum PompeiiLocation: String {
     case TownOfPompeii = "Town of Pompeii"
+    case DistantVolcano = "Distant volcano"
     case InsideTheVolcano = "Inside the volcano"
 }
 
@@ -47,6 +48,7 @@ enum Region {
         case .Pompeii:
             return [
                 Location(name: PompeiiLocation.TownOfPompeii.rawValue, region: self, inventory: [ .TimeMachine, .DistantVolcano, .Evangeline ]),
+                Location(name: PompeiiLocation.DistantVolcano.rawValue, region: self, inventory: [ ]),
                 Location(name: PompeiiLocation.InsideTheVolcano.rawValue, region: self, inventory: [ .OrangeGem ])
             ]
         case .Troy:
@@ -66,7 +68,7 @@ class Location {
         var imagePath = ""
         switch region {
         case .MostlyEmptyRoom:
-            let gemShown = gemIsShown
+            let gemShown = redGemIsShown
             if flashlightIsOn {
                 imagePath = gemShown ? "EmptyRoom" : "EmptyRoomNoGem"
             } else {
@@ -79,8 +81,11 @@ class Location {
             switch locationName {
             case .TownOfPompeii:
                 imagePath = "TownOfPompeii"
+            case .DistantVolcano:
+                imagePath = "NearVolcano"
             case .InsideTheVolcano:
-                imagePath = "InsideTheVolcano"
+                let gemShown = orangeGemIsShown
+                imagePath = gemShown ? "InsideVolcano" : "InsideVolcanoNoGem"
             }
         case .Troy:
             guard let locationName = TroyLocation(rawValue: name) else {
@@ -111,11 +116,17 @@ class Location {
         }
         return appDelegate.gameState.flashlightIsOn
     }
-    var gemIsShown: Bool {
+    var redGemIsShown: Bool {
         guard let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate else {
             fatalError("Unable to retrieve App Delegate")
         }
         return !appDelegate.gameState.hasItemInInventory(.RedGem)
+    }
+    var orangeGemIsShown: Bool {
+        guard let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate else {
+            fatalError("Unable to retrieve App Delegate")
+        }
+        return !appDelegate.gameState.hasItemInInventory(.OrangeGem)
     }
     var evangelineIsInParty: Bool {
         guard let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate else {
@@ -145,7 +156,17 @@ class Location {
         case .MostlyEmptyRoom:
             return "You awake in an dark room. You have a slight headache and you have no idea where you are. There's not much to see in the dark."
         case .Pompeii:
-            return "You feel dizzy and drop your flashlight.\n\nThere is a sense of movement all around, but you can still feel the solid floor beneath your feet. The pattern of the room starts to break apart, like pieces being removed from a jigsaw puzzle.\n\n\(secondDescription())\n\nYour headache is suddenly gone.\n\nYour flashlight is nowhere to be seen."
+            guard let whereInPompeii = PompeiiLocation(rawValue: name) else {
+                fatalError("Invalid location")
+            }
+            switch whereInPompeii {
+            case .TownOfPompeii:
+                return "You feel dizzy and drop your flashlight.\n\nThere is a sense of movement all around, but you can still feel the solid floor beneath your feet. The pattern of the room starts to break apart, like pieces being removed from a jigsaw puzzle.\n\n\(secondDescription())\n\nYour headache is suddenly gone.\n\nYour flashlight is nowhere to be seen."
+            case .DistantVolcano:
+                return "Not much to see."
+            case .InsideTheVolcano:
+                return "You are _literally_ inside a volcano."
+            }
         default:
             fatalError("Not yet implemented")
         }

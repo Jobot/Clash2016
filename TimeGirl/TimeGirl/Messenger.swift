@@ -259,6 +259,11 @@ struct Messenger {
     }
     
     func messageForMoveToItem(item: CommandAssociatedValue) -> String {
-        return ""
+        if state.canMoveTo(item.recognizedItem) {
+            state.moveToLocationOfItem(item.recognizedItem)
+            return "You move to \(item.recognizedItem.rawValue)"
+        }
+        
+        return "You cannot get there from here."
     }
 }

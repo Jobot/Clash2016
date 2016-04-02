@@ -123,12 +123,7 @@ class GameState {
                 guard let location = Region.Pompeii.locations().first else {
                     fatalError("Missing location")
                 }
-                let oldLocation = self.location
-                self.location = location
-                self.delegate.gameState(self, movedToLocation: location, fromLocation: oldLocation)
-                if oldLocation.region == .MostlyEmptyRoom {
-                    self.removeItemFromInventory(.Flashlight)
-                }
+                self.moveToLocation(location)
             }
         case .OrangeGem:
             guard location.region != .Troy else {
@@ -142,6 +137,61 @@ class GameState {
             }
         default:
             break
+        }
+    }
+    
+    func canMoveTo(item: InventoryItem) -> Bool {
+        switch location.region {
+        case .Pompeii:
+            guard let locationName = PompeiiLocation(rawValue: location.name) else {
+                fatalError("Invalid location")
+            }
+            switch locationName {
+            case .TownOfPompeii, .DistantVolcano:
+                return item == .DistantVolcano
+            default:
+                return false
+            }
+        default:
+            return false
+        }
+    }
+    
+    func moveToLocationOfItem(item: InventoryItem) {
+        switch item {
+        case .DistantVolcano:
+            guard self.location.region == .Pompeii else {
+                return
+            }
+            guard let locationName = PompeiiLocation(rawValue: self.location.name) else {
+                return
+            }
+            
+            switch locationName {
+            case .TownOfPompeii:
+                let location = Region.Pompeii.locations()[1]
+                dispatchLater {
+                    self.moveToLocation(location)
+                }
+            case .DistantVolcano:
+                let location = Region.Pompeii.locations()[2]
+                dispatchLater {
+                    self.moveToLocation(location)
+                }
+            default:
+                break
+            }
+        default:
+            break
+        }
+    }
+    
+    func moveToLocation(location: Location) {
+        let oldLocation = self.location
+        self.location = location
+        delegate.gameState(self, movedToLocation: location, fromLocation: oldLocation)
+        if oldLocation.region == .MostlyEmptyRoom {
+            removeItemFromInventory(.Flashlight)
         }
     }
 }
