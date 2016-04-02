@@ -18,12 +18,12 @@ enum InventoryItem: String {
     case Evangeline = "Evangeline"
     
     static let acceptableNames: [ InventoryItem:[String] ] = [
-        .RedGem : [ "ruby", "red gem", "big red gem", "a red gem", "the red gem" ],
+        .RedGem : [ "ruby", "the ruby", "a ruby", "red gem", "a red gem", "the red gem", "big red gem", "a big red gem", "the big red gem" ],
         .OrangeGem : [ "orange gem", "a orange gem", "an orange gem", "the orange gem" ],
-        .Flashlight: [ "flashlight", "a flashlight", "my flashlight", "the flashlight", "a small flashlight" ],
+        .Flashlight: [ "flashlight", "a flashlight", "my flashlight", "the flashlight", "small flashlight", "a small flashlight", "my small flashlight", "the small flashlight" ],
         .Door : [ "door", "a door", "the door", "ordinary door", "an ordinary door", "the ordinary door" ],
-        .TimeMachine: [ "machine", "a machine", "a strange machine", "the machine", "the strange machine", "the time machine" ],
-        .DistantVolcano: [ "distant volcano", "a distant volcano", "volcano", "a volcano", "the distant volcano", "the volcano" ],
+        .TimeMachine: [ "machine", "a machine", "the machine", "strange machine", "a strange machine", "the strange machine", "time machine", "a time machine", "the time machine" ],
+        .DistantVolcano: [ "distant volcano", "a distant volcano", "the distant volcano", "volcano", "a volcano", "the volcano" ],
         .Evangeline: [ "evangeline", "strange girl", "a strange girl", "the strange girl", "girl", "a girl", "the girl" ]
     ]
     
