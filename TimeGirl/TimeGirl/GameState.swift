@@ -12,6 +12,7 @@ protocol GameStateDelegate {
     func gameState(gameState:GameState, movedToLocation toLocation: Location, fromLocation: Location)
     func gameState(gameState:GameState, didEnableFlashlight enabled: Bool)
     func gameState(gameState:GameState, updatedGem: InventoryItem, inInventory: Bool)
+    func gameState(gameState:GameState, didSendMessage message: String)
 }
 
 class GameState {
@@ -73,6 +74,9 @@ class GameState {
         switch item1 {
         case .RedGem:
             guard location.region != .Pompeii else {
+                dispatchLater {
+                    self.delegate.gameState(self, didSendMessage: "The machine does nothing. Perhaps you can't use that gem right now.")
+                }
                 return
             }
             dispatchLater {
@@ -82,12 +86,15 @@ class GameState {
                 let oldLocation = self.location
                 self.location = location
                 self.delegate.gameState(self, movedToLocation: location, fromLocation: oldLocation)
-                if self.location.region == .MostlyEmptyRoom {
+                if oldLocation.region == .MostlyEmptyRoom {
                     self.removeItemFromInventory(.Flashlight)
                 }
             }
         case .OrangeGem:
             guard location.region != .Troy else {
+                dispatchLater {
+                    self.delegate.gameState(self, didSendMessage: "The machine does nothing. Perhaps you can't use that gem right now.")
+                }
                 return
             }
             dispatchLater {

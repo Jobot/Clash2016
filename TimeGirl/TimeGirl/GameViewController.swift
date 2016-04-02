@@ -254,4 +254,9 @@ extension GameViewController: GameStateDelegate {
         
         imageView.image = state.location.backgroundImage
     }
+    
+    func gameState(gameState: GameState, didSendMessage message: String) {
+        appendMessage(message, toTextView: textView)
+        appendMessage(" ", toTextView: textView)
+    }
 }
