@@ -61,7 +61,7 @@ enum Region {
 class Location {
     let name: String
     let region: Region
-    var inventory: [Inventory]
+    var inventory: [InventoryItem]
     var backgroundImage: NSImage? {
         var imagePath = ""
         switch region {
@@ -102,7 +102,7 @@ class Location {
     }
     var descriptionGiven: Bool = false
     
-    init(name: String, region: Region, inventory: [Inventory]) {
+    init(name: String, region: Region, inventory: [InventoryItem]) {
         self.name = name
         self.region = region
         self.inventory = inventory

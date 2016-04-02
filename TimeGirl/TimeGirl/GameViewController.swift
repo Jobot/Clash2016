@@ -96,16 +96,31 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
         var message: String
         switch command {
         case let .Examine(item):
+            guard let item = item?.recognizedItem else {
+                fatalError("Error unwrapping item")
+            }
             message = messenger.messageForExamineItem(item)
         case let .Take(item):
+            guard let item = item?.recognizedItem else {
+                fatalError("Error unwrapping item")
+            }
             message = messenger.messageForTakeItem(item)
         case let .Open(item):
+            guard let item = item?.recognizedItem else {
+                fatalError("Error unwrapping item")
+            }
             message = messenger.messageForOpenItem(item)
         case .Inventory:
             message = messenger.messageForInventory()
         case let .TurnOn(item):
+            guard let item = item?.recognizedItem else {
+                fatalError("Error unwrapping item")
+            }
             message = messenger.messageForTurnOnItem(item)
         case let .TurnOff(item):
+            guard let item = item?.recognizedItem else {
+                fatalError("Error unwrapping item")
+            }
             message = messenger.messageForTurnOffItem(item)
         }
         

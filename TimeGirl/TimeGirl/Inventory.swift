@@ -8,22 +8,22 @@
 
 import Foundation
 
-enum Inventory: String {
+enum InventoryItem: String {
     case RedGem = "a red gem"
     case OrangeGem = "an orange gem"
     case Flashlight = "a flashlight"
     
-    static let acceptableNames: [ Inventory:[String] ] = [
+    static let acceptableNames: [ InventoryItem:[String] ] = [
         .RedGem : [ "red gem", "a red gem", "the red gem" ],
         .OrangeGem : [ "orange gem", "a orange gem", "an orange gem", "the orange gem" ],
-        .Flashlight: [ "flashlight", "a flashlight", "my flashlight", "a small flashlight" ]
+        .Flashlight: [ "flashlight", "a flashlight", "my flashlight", "the flashlight", "a small flashlight" ]
     ]
     
     init?(rawValue: String) {
         let value = rawValue.lowercaseString
         
-        for item in Inventory.acceptableNames.keys {
-            if let items = Inventory.acceptableNames[item] {
+        for item in InventoryItem.acceptableNames.keys {
+            if let items = InventoryItem.acceptableNames[item] {
                 if items.contains(value) {
                     self = item
                     return
@@ -32,6 +32,21 @@ enum Inventory: String {
         }
         
         return nil
+    }
+    
+    static func InventoryFromTokens(tokens: [String]) -> (inventory: InventoryItem?, consumedTokens: [String], remainingTokens: [String]) {
+        let string = String.stringFromTokens(tokens).lowercaseString
+        for nameList in acceptableNames.values {
+            for name in nameList {
+                if string.hasPrefix(name) {
+                    let inventory = InventoryItem(rawValue: name)
+                    let consumedTokens = name.tokenize()
+                    let remainingTokens = Array(tokens.dropFirst(name.tokenize().count))
+                    return (inventory, consumedTokens, remainingTokens)
+                }
+            }
+        }
+        return (nil, [], tokens)
     }
     
     func describe() -> String {

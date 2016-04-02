@@ -17,13 +17,19 @@ struct CommandItem {
     let strings: [String]
 }
 
+struct CommandAssociatedValue {
+    let typedItem: String
+    let recognizedItem: InventoryItem
+    let remainingTokens: [String]
+}
+
 enum Command {
-    case Examine(String)
-    case Take(String)
-    case Open(String)
+    case Examine(CommandAssociatedValue?)
+    case Take(CommandAssociatedValue?)
+    case Open(CommandAssociatedValue?)
     case Inventory
-    case TurnOn(String)
-    case TurnOff(String)
+    case TurnOn(CommandAssociatedValue?)
+    case TurnOff(CommandAssociatedValue?)
 
     private static let examineStrings = [ "examine", "look at", "view", "inspect" ]
     private static let takeStrings = [ "take", "pick up", "grab", "snatch" ]
@@ -31,13 +37,6 @@ enum Command {
     private static let inventoryStrings = [ "inventory", "show inventory" ]
     private static let turnOnStrings = [ "turn on", "switch on", "enable", "engage" ]
     private static let turnOffStrings = [ "turn off", "switch off", "disable", "disengage" ]
-    
-    static func stringFromTokens(tokens: [String], separator: String = " ") -> String {
-        return tokens.reduce("") { (text, token) -> String in
-            let beginning = (text.characters.count > 0) ? "\(text) " : ""
-            return "\(beginning)\(token)"
-        }
-    }
     
     static func tokenIsArticle(token: String) -> Bool {
         let text = token.lowercaseString
@@ -53,23 +52,6 @@ enum Command {
         return false
     }
     
-    static func itemFromRemainingTokens(tokens: [String]) -> String? {
-        guard let firstItem = tokens.first else {
-            return nil
-        }
-
-        var item = firstItem
-        if tokenIsArticle(firstItem) {
-            guard tokens.count > 1 else {
-                return nil
-            }
-            let secondItem = tokens[1]
-            item = stringFromTokens([item, secondItem])
-        }
-        
-        return item
-    }
-    
     static func command(command: Command, withRemainingTokens tokens: [String]) -> Command? {
         switch command {
         case .Inventory:
@@ -78,9 +60,13 @@ enum Command {
             break
         }
         
-        guard let item = itemFromRemainingTokens(tokens) else {
+        let known = InventoryItem.InventoryFromTokens(tokens)
+        guard let inventory = known.inventory else {
             return nil
         }
+        let consumedString = String.stringFromTokens(known.consumedTokens)
+        let remainingTokens = known.remainingTokens
+        let item = CommandAssociatedValue(typedItem: consumedString, recognizedItem: inventory, remainingTokens: remainingTokens)
         
         switch command {
         case .Examine:
@@ -101,13 +87,13 @@ enum Command {
     }
     
     static func commandFromTokens(tokens: [String]) -> Command? {
-        let text = stringFromTokens(tokens).lowercaseString
-        let commands = [ CommandItem(command: .Examine(""), strings: examineStrings),
-                         CommandItem(command: .Take(""), strings: takeStrings),
-                         CommandItem(command: .Open(""), strings: openStrings),
+        let text = String.stringFromTokens(tokens).lowercaseString
+        let commands = [ CommandItem(command: .Examine(nil), strings: examineStrings),
+                         CommandItem(command: .Take(nil), strings: takeStrings),
+                         CommandItem(command: .Open(nil), strings: openStrings),
                          CommandItem(command: .Inventory, strings: inventoryStrings),
-                         CommandItem(command: .TurnOn(""), strings: turnOnStrings),
-                         CommandItem(command: .TurnOff(""), strings: turnOffStrings)
+                         CommandItem(command: .TurnOn(nil), strings: turnOnStrings),
+                         CommandItem(command: .TurnOff(nil), strings: turnOffStrings)
         ]
         
         for command in commands {
@@ -137,5 +123,12 @@ extension String {
             }
         }
         return (false, nil)
+    }
+    
+    static func stringFromTokens(tokens: [String], separator: String = " ") -> String {
+        return tokens.reduce("") { (text, token) -> String in
+            let beginning = (text.characters.count > 0) ? "\(text) " : ""
+            return "\(beginning)\(token)"
+        }
     }
 }

@@ -25,11 +25,9 @@ struct Messenger {
         return randomMessageFromMessages(messages)
     }
     
-    func messageForExamineItem(item: String) -> String {
-        if let knownItem = Inventory(rawValue: item) {
-            if state.inventory.contains(knownItem) {
-                return knownItem.describe()
-            }
+    func messageForExamineItem(item: InventoryItem) -> String {
+        if state.inventory.contains(item) {
+            return item.describe()
         }
         
         let messages = [ "You do not see \(item) here.",
@@ -39,7 +37,7 @@ struct Messenger {
         return randomMessageFromMessages(messages)
     }
     
-    func messageForTakeItem(item: String) -> String {
+    func messageForTakeItem(item: InventoryItem) -> String {
         let messages = [ "You cannot take \(item).",
                          "Why do you want to take \(item)?",
                          "That's not yours.",
@@ -48,7 +46,7 @@ struct Messenger {
         return randomMessageFromMessages(messages)
     }
     
-    func messageForOpenItem(item: String) -> String {
+    func messageForOpenItem(item: InventoryItem) -> String {
         let messages = [ "It does not seem to open.",
                          "Not everything can be opened.",
                          "You cannot open \(item) right now."
@@ -77,17 +75,15 @@ struct Messenger {
         }
     }
     
-    func messageForTurnOnItem(item: String) -> String {
-        if let knownItem = Inventory(rawValue: item) {
-            if state.inventory.contains(knownItem) {
-                // user has item ... can we turn it on?
-                if knownItem == .Flashlight {
-                    if state.flashlightIsOn {
-                        return "Your flashlight is already on."
-                    } else {
-                        state.flashlightIsOn = true
-                        return "You turn on your flashlight."
-                    }
+    func messageForTurnOnItem(item: InventoryItem) -> String {
+        if state.inventory.contains(item) {
+            // user has item ... can we turn it on?
+            if item == .Flashlight {
+                if state.flashlightIsOn {
+                    return "Your flashlight is already on."
+                } else {
+                    state.flashlightIsOn = true
+                    return "You turn on your flashlight."
                 }
             }
         }
@@ -100,17 +96,15 @@ struct Messenger {
         return randomMessageFromMessages(messages)
     }
     
-    func messageForTurnOffItem(item: String) -> String {
-        if let knownItem = Inventory(rawValue: item) {
-            if state.inventory.contains(knownItem) {
-                // user has the item .. can we turn it off?
-                if knownItem == .Flashlight {
-                    if state.flashlightIsOn {
-                        state.flashlightIsOn = false
-                        return "You turn off your flashlight."
-                    } else {
-                        return "Your flashlight is not on."
-                    }
+    func messageForTurnOffItem(item: InventoryItem) -> String {
+        if state.inventory.contains(item) {
+            // user has the item .. can we turn it off?
+            if item == .Flashlight {
+                if state.flashlightIsOn {
+                    state.flashlightIsOn = false
+                    return "You turn off your flashlight."
+                } else {
+                    return "Your flashlight is not on."
                 }
             }
         }

@@ -15,7 +15,7 @@ protocol GameStateDelegate {
 
 class GameState {
     let delegate: GameStateDelegate
-    var inventory: [Inventory]
+    var inventory: [InventoryItem]
     var location: Location
     
     var flashlightIsOn = false {
@@ -26,7 +26,7 @@ class GameState {
         }
     }
     
-    init(delegate: GameStateDelegate, inventory: [Inventory], location: Location) {
+    init(delegate: GameStateDelegate, inventory: [InventoryItem], location: Location) {
         self.delegate = delegate
         self.inventory = inventory
         self.location = location
