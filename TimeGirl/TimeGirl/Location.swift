@@ -46,7 +46,7 @@ enum Region {
             ]
         case .Pompeii:
             return [
-                Location(name: PompeiiLocation.TownOfPompeii.rawValue, region: self, inventory: [ .TimeMachine, .DistantVolcano ]),
+                Location(name: PompeiiLocation.TownOfPompeii.rawValue, region: self, inventory: [ .TimeMachine, .DistantVolcano, .Evangeline ]),
                 Location(name: PompeiiLocation.InsideTheVolcano.rawValue, region: self, inventory: [ .OrangeGem ])
             ]
         case .Troy:
@@ -144,7 +144,7 @@ class Location {
                 return "You are in a dark room. There's not much to see in the dark."
             }
         case .Pompeii:
-            return "You are standing in an ancient city. The city is bustling with activity. Smoke looms in the distance. On the ground behind you is the strange machine that brought you here."
+            return "You are standing in an ancient city. The city is bustling with activity. Smoke looms in the distance. On the ground behind you is the strange machine that brought you here.\n\nYou see a strange girl in the crowd. She is looking at you."
         default:
             fatalError("Not yet implemented")
         }
