@@ -25,6 +25,10 @@ struct Messenger {
         return randomMessageFromMessages(messages)
     }
     
+    func messageForLookAround() -> String {
+        return state.location.describeLocation()
+    }
+    
     func messageForExamineItem(item: InventoryItem) -> String {
         if (state.location.region == .MostlyEmptyRoom) && !state.flashlightIsOn {
             return "It's too dark for that."
@@ -38,9 +42,9 @@ struct Messenger {
             return item.describe()
         }
         
-        let messages = [ "You do not see \(item) here.",
-                         "I don't see \(item). Do you see \(item)?",
-                         "\(item) is not here."
+        let messages = [ "You do not see \(item.rawValue) here.",
+                         "I don't see \(item.rawValue). Do you see \(item.rawValue)?",
+                         "\(item.rawValue) is not here."
         ]
         return randomMessageFromMessages(messages)
     }
@@ -55,18 +59,18 @@ struct Messenger {
         }
         
         if state.hasItemInInventory(item) {
-            return "You already have \(item)."
+            return "You already have \(item.rawValue)."
         }
         if state.location.inventory.contains(item) {
             if let index = state.location.inventory.indexOf(item) {
                 state.location.inventory.removeAtIndex(index)
                 state.addItemToInventory(item)
-                return "You take \(item)."
+                return "You take \(item.rawValue)."
             }
         }
         
-        let messages = [ "You cannot take \(item).",
-                         "Why do you want to take \(item)?",
+        let messages = [ "You cannot take \(item.rawValue).",
+                         "Why do you want to take \(item.rawValue)?",
                          "That's not yours.",
                          "That's not something you can take."
         ]
@@ -78,9 +82,13 @@ struct Messenger {
             return "It's too dark for that."
         }
         
+        if (item == .Door) && (state.location.region == .MostlyEmptyRoom) {
+            return "The door will not open. Perhaps it's locked from the outside."
+        }
+        
         let messages = [ "It does not seem to open.",
                          "Not everything can be opened.",
-                         "You cannot open \(item) right now."
+                         "You cannot open \(item.rawValue) right now."
         ]
         return randomMessageFromMessages(messages)
     }
@@ -158,7 +166,11 @@ struct Messenger {
     
     func messageForUseItem(item: CommandAssociatedValue) -> String {
         if !state.hasItemInInventory(item.recognizedItem) {
-            return "You don't have \(item.recognizedItem)."
+            return "You don't have \(item.recognizedItem.rawValue)."
+        }
+        
+        if item.remainingTokens.count < 1 {
+            return "How do you want to use \(item.recognizedItem.rawValue)?"
         }
         
         guard let preposition = item.remainingTokens.first else {
@@ -179,7 +191,7 @@ struct Messenger {
         
         if item.recognizedItem.canUseWithItem(nextItem) {
             state.useItems(item.recognizedItem, item2: nextItem)
-            return "Using \(item.recognizedItem) with \(nextItem)"
+            return "Using \(item.recognizedItem.rawValue) with \(nextItem.rawValue)."
         }
         
         return messageForUnknownText("")

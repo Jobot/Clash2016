@@ -24,6 +24,7 @@ struct CommandAssociatedValue {
 }
 
 enum Command {
+    case LookAround
     case Examine(CommandAssociatedValue?)
     case Take(CommandAssociatedValue?)
     case Open(CommandAssociatedValue?)
@@ -32,6 +33,7 @@ enum Command {
     case TurnOff(CommandAssociatedValue?)
     case Use(CommandAssociatedValue?)
 
+    private static let lookAroundStrings = [ "look around" ]
     private static let examineStrings = [ "examine", "look at", "view", "inspect" ]
     private static let takeStrings = [ "take", "pick up", "grab", "snatch" ]
     private static let openStrings = [ "open" ]
@@ -58,6 +60,8 @@ enum Command {
         switch command {
         case .Inventory:
             return .Inventory
+        case .LookAround:
+            return .LookAround
         case .Examine, .Take, .Open, .TurnOn, .TurnOff, .Use:
             break
         }
@@ -71,6 +75,8 @@ enum Command {
         let item = CommandAssociatedValue(typedItem: consumedString, recognizedItem: inventory, remainingTokens: remainingTokens)
         
         switch command {
+        case .LookAround:
+            break
         case .Examine:
             return .Examine(item)
         case .Take:
@@ -92,7 +98,8 @@ enum Command {
     
     static func commandFromTokens(tokens: [String]) -> Command? {
         let text = String.stringFromTokens(tokens).lowercaseString
-        let commands = [ CommandItem(command: .Examine(nil), strings: examineStrings),
+        let commands = [ CommandItem(command: .LookAround, strings: lookAroundStrings),
+                         CommandItem(command: .Examine(nil), strings: examineStrings),
                          CommandItem(command: .Take(nil), strings: takeStrings),
                          CommandItem(command: .Open(nil), strings: openStrings),
                          CommandItem(command: .Inventory, strings: inventoryStrings),

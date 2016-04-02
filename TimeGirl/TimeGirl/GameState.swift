@@ -70,7 +70,32 @@ class GameState {
     }
     
     func useItems(item1: InventoryItem, item2: InventoryItem) {
-        print("USING \(item1) WITH \(item2)")
+        switch item1 {
+        case .RedGem:
+            guard location.region != .Pompeii else {
+                return
+            }
+            dispatchLater {
+                guard let location = Region.Pompeii.locations().first else {
+                    fatalError("Missing location")
+                }
+                let oldLocation = self.location
+                self.location = location
+                self.delegate.gameState(self, movedToLocation: location, fromLocation: oldLocation)
+                if self.location.region == .MostlyEmptyRoom {
+                    self.removeItemFromInventory(.Flashlight)
+                }
+            }
+        case .OrangeGem:
+            guard location.region != .Troy else {
+                return
+            }
+            dispatchLater {
+                self.delegate.gameState(self, movedToLocation: Region.Troy.locations().first!, fromLocation: self.location)
+            }
+        default:
+            break
+        }
     }
 }
 

@@ -42,11 +42,11 @@ enum Region {
         switch self {
         case .MostlyEmptyRoom:
             return [
-                Location(name: MostlyEmptyRoomLocation.MostlyEmptyRoom.rawValue, region: self, inventory: [ .RedGem, .TimeMachine ])
+                Location(name: MostlyEmptyRoomLocation.MostlyEmptyRoom.rawValue, region: self, inventory: [ .RedGem, .Door, .TimeMachine ])
             ]
         case .Pompeii:
             return [
-                Location(name: PompeiiLocation.TownOfPompeii.rawValue, region: self, inventory: []),
+                Location(name: PompeiiLocation.TownOfPompeii.rawValue, region: self, inventory: [ .TimeMachine ]),
                 Location(name: PompeiiLocation.InsideTheVolcano.rawValue, region: self, inventory: [ .OrangeGem ])
             ]
         case .Troy:
@@ -128,6 +128,8 @@ class Location {
         switch region {
         case .MostlyEmptyRoom:
             return "You awake in an dark room. You have a slight headache and you have no idea where you are. There's not much to see in the dark."
+        case .Pompeii:
+            return "You sense movement all around you, although you remain standing completely still. You look around and suddenly realize you are no longer in the mostly empty room. Now you are standing in a street of an ancient yet bustling city. Given the look of the architecture and the volcano looming in the distance you judge this is ancient Pompeii. But how did you get here?\n\nYour headache seems to be gone, and you seem to have misplaced your flashlight."
         default:
             fatalError("Not yet implemented")
         }
@@ -141,6 +143,8 @@ class Location {
             } else {
                 return "You are in a dark room. There's not much to see in the dark."
             }
+        case .Pompeii:
+            return "You are standing in an ancient city. The city is bustling with activity. Smoke looms in the distance. On the ground behind you is the strange machine that brought you here."
         default:
             fatalError("Not yet implemented")
         }

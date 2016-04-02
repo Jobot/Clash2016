@@ -95,6 +95,8 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     func processCommand(command: Command) {
         var message: String
         switch command {
+        case .LookAround:
+            message = messenger.messageForLookAround()
         case let .Examine(item):
             guard let item = item?.recognizedItem else {
                 fatalError("Error unwrapping item")

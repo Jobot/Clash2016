@@ -6,18 +6,20 @@
 //  Copyright © 2016 Joseph W. Dixon. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 enum InventoryItem: String {
     case RedGem = "a red gem"
     case OrangeGem = "an orange gem"
     case Flashlight = "a flashlight"
+    case Door = "an ordinary door"
     case TimeMachine = "a strange machine"
     
     static let acceptableNames: [ InventoryItem:[String] ] = [
-        .RedGem : [ "red gem", "a red gem", "the red gem" ],
+        .RedGem : [ "ruby", "red gem", "big red gem", "a red gem", "the red gem" ],
         .OrangeGem : [ "orange gem", "a orange gem", "an orange gem", "the orange gem" ],
         .Flashlight: [ "flashlight", "a flashlight", "my flashlight", "the flashlight", "a small flashlight" ],
+        .Door : [ "door", "a door", "the door", "ordinary door", "an ordinary door", "the ordinary door" ],
         .TimeMachine: [ "machine", "a machine", "a strange machine", "the machine", "the strange machine", "the time machine" ]
     ]
     
@@ -42,6 +44,8 @@ enum InventoryItem: String {
             return true
         case .Flashlight:
             return true
+        case .Door:
+            return false
         case .TimeMachine:
             return false
         }
@@ -79,6 +83,8 @@ enum InventoryItem: String {
             return "A large orange gem. It's not very heavy. In fact, you could comfortably tote several of these in your backpack."
         case .Flashlight:
             return "A small, sturdy flashlight. This flashlight has accompanied you on many adventures, and you cannot imagine going anwhere without it."
+        case .Door:
+            return "An ordinary door. There's nothing special about it. It feels slightly warm."
         case .TimeMachine:
             return "A strange, star-shaped machine."
         }
