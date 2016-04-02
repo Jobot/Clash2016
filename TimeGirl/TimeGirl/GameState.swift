@@ -23,7 +23,9 @@ class GameState {
     
     var flashlightIsOn = false {
         didSet {
-            dispatchLater { 
+            dispatchLater {
+                let message = "Light fills the room. How fortunate you are to have your trusty flashlight. This little guy has been with you on many adventures and has never once failed you. And don't get me started about the battery life. Just spendid!"
+                self.delegate.gameState(self, didSendMessage: message)
                 self.delegate.gameState(self, didEnableFlashlight: self.flashlightIsOn)
             }
         }

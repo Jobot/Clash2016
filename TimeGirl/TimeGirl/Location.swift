@@ -129,7 +129,7 @@ class Location {
         case .MostlyEmptyRoom:
             return "You awake in an dark room. You have a slight headache and you have no idea where you are. There's not much to see in the dark."
         case .Pompeii:
-            return "You sense movement all around you, although you remain standing completely still. You look around and suddenly realize you are no longer in the mostly empty room. Now you are standing in a street of an ancient yet bustling city. Given the look of the architecture and the volcano looming in the distance you judge this is ancient Pompeii. But how did you get here?\n\nYour headache seems to be gone, and you seem to have misplaced your flashlight."
+            return "You feel dizzy and drop your flashlight.\n\nThere is a sense of movement all around, but you can still feel the solid floor beneath your feet. The pattern of the room starts to break apart, like pieces being removed from a jigsaw puzzle.\n\n\(secondDescription())\n\nYour headache is suddenly gone.\n\nYour flashlight is nowhere to be seen."
         default:
             fatalError("Not yet implemented")
         }

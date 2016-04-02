@@ -42,6 +42,11 @@ struct Messenger {
             return item.describe()
         }
         
+        if item == .Flashlight {
+            // the user has already lost their flashlight ... make them feel sad
+            return lostFlashlightMessage()
+        }
+        
         let messages = [ "You do not see \(item.rawValue) here.",
                          "I don't see \(item.rawValue). Do you see \(item.rawValue)?",
                          "\(item.rawValue) is not here."
@@ -127,6 +132,11 @@ struct Messenger {
             }
         }
         
+        if item == .Flashlight {
+            // the user has already lost their flashlight ... make them feel sad
+            return lostFlashlightMessage()
+        }
+        
         if (state.location.region == .MostlyEmptyRoom) && !state.flashlightIsOn {
             return "It's too dark for that."
         }
@@ -156,10 +166,28 @@ struct Messenger {
             }
         }
         
+        if item == .Flashlight {
+            // the user has already lost their flashlight ... make them feel sad
+            return lostFlashlightMessage()
+        }
+        
         let messages = [
             "That doesn't seem to work.",
             "You don't know how to turn that off.",
             "That cannot be turned off."
+        ]
+        return randomMessageFromMessages(messages)
+    }
+    
+    func lostFlashlightMessage() -> String {
+        let messages = [
+            "You lost your flashlight.",
+            "You no longer have your flashlight.",
+            "You lost your flashlight when you first traveled to Pompeii.",
+            "Your flashlight is gone. You should move on.",
+            "You lost your treasured flashlight. How can you ever replace it?",
+            "With a sad heart you realize your flashlight is gone.",
+            "Your trusty flashlight was your most treasured possession. Now it is gone. You hope it is in a better place."
         ]
         return randomMessageFromMessages(messages)
     }
