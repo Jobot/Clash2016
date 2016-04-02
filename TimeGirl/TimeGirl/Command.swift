@@ -33,6 +33,7 @@ enum Command {
     case TurnOff(CommandAssociatedValue?)
     case Use(CommandAssociatedValue?)
     case Talk(CommandAssociatedValue?)
+    case MoveTo(CommandAssociatedValue?)
 
     private static let lookAroundStrings = [ "look around" ]
     private static let examineStrings = [ "examine", "look at", "view", "inspect" ]
@@ -43,6 +44,7 @@ enum Command {
     private static let turnOffStrings = [ "turn off", "switch off", "disable", "disengage" ]
     private static let useStrings = [ "use", "put" ]
     private static let talkStrings = [ "talk to", "speak to", "talk with", "speak with" ]
+    private static let moveToStrings = [ "move to", "walk to", "go to" ]
     
     static func tokenIsArticle(token: String) -> Bool {
         let text = token.lowercaseString
@@ -64,7 +66,7 @@ enum Command {
             return .Inventory
         case .LookAround:
             return .LookAround
-        case .Examine, .Take, .Open, .TurnOn, .TurnOff, .Use, Talk:
+        case .Examine, .Take, .Open, .TurnOn, .TurnOff, .Use, .Talk, .MoveTo:
             break
         }
         
@@ -95,6 +97,8 @@ enum Command {
             return .Use(item)
         case .Talk:
             return .Talk(item)
+        case .MoveTo:
+            return .MoveTo(item)
         }
         
         return nil
@@ -110,7 +114,8 @@ enum Command {
                          CommandItem(command: .TurnOn(nil), strings: turnOnStrings),
                          CommandItem(command: .TurnOff(nil), strings: turnOffStrings),
                          CommandItem(command: .Use(nil), strings: useStrings),
-                         CommandItem(command: .Talk(nil), strings: talkStrings)
+                         CommandItem(command: .Talk(nil), strings: talkStrings),
+                         CommandItem(command: .MoveTo(nil), strings: moveToStrings)
         ]
         
         for command in commands {

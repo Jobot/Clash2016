@@ -138,6 +138,11 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
                 fatalError("Error unwrapping item")
             }
             message = messenger.messageForTalkToItem(item)
+        case let .MoveTo(item):
+            guard let item = item else {
+                fatalError("Error unwrapping item")
+            }
+            message = messenger.messageForMoveToItem(item)
         }
         
         echoResponse(message, toTextView: textView)

@@ -257,4 +257,8 @@ struct Messenger {
         
         return "You talk to Evangeline. She seems nice."
     }
+    
+    func messageForMoveToItem(item: CommandAssociatedValue) -> String {
+        return ""
+    }
 }
