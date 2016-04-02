@@ -14,6 +14,7 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var imageView: NSImageView!
     @IBOutlet var textView: NSTextView!
     @IBOutlet var textField: NSTextField!
+    @IBOutlet var evangelineImageView: NSImageView!
     
     @IBOutlet var redGemImageView: NSImageView!
     @IBOutlet var orangeGemImageView: NSImageView!
@@ -95,6 +96,7 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     }
     
     func processCommand(command: Command) {
+        evangelineImageView.image = nil
         var message: String
         switch command {
         case .LookAround:
@@ -270,6 +272,10 @@ extension GameViewController: GameStateDelegate {
     func gameState(gameState: GameState, didSendMessage message: String) {
         appendMessage(message, toTextView: textView)
         appendMessage(" ", toTextView: textView)
+    }
+    
+    func gameState(gameState: GameState, didChangeEvangelineState evangelineState: EvangelineState) {
+        evangelineImageView.image = evangelineState.image()
     }
 }
 

@@ -99,6 +99,8 @@ class Location {
         switch region {
         case .Pompeii:
             return NSBundle.mainBundle().pathForSoundResource("Pompeii")
+        case .MostlyEmptyRoom:
+            return NSBundle.mainBundle().pathForSoundResource("Mostly Empty Room")
         default:
             return nil
         }

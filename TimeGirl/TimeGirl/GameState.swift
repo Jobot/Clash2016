@@ -6,18 +6,38 @@
 //  Copyright © 2016 Joseph W. Dixon. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 protocol GameStateDelegate {
     func gameState(gameState:GameState, movedToLocation toLocation: Location, fromLocation: Location)
     func gameState(gameState:GameState, didEnableFlashlight enabled: Bool)
     func gameState(gameState:GameState, updatedGem: InventoryItem, inInventory: Bool)
     func gameState(gameState:GameState, didSendMessage message: String)
+    func gameState(gameState:GameState, didChangeEvangelineState evangelineState: EvangelineState)
+}
+
+enum EvangelineState {
+    case Absent
+    case Happy
+    case Sad
+    case Curious
+    case Mad
+    case Frightened
+    
+    func image() -> NSImage? {
+        switch self {
+        case .Happy:
+            return NSImage(named: "EvangelineSmiling")
+        case .Absent, .Sad, .Curious, .Mad, .Frightened:
+            return nil
+        }
+    }
 }
 
 class GameState {
     let delegate: GameStateDelegate
     var location: Location
+    var evangelineState: EvangelineState = .Absent
     
     private var inventory: [InventoryItem]
     
@@ -35,6 +55,10 @@ class GameState {
         self.delegate = delegate
         self.inventory = inventory
         self.location = location
+        
+        dispatchLater {
+            delegate.gameState(self, movedToLocation: location, fromLocation: location)
+        }
     }
     
     func numberOfItemsInInventory() -> Int {
@@ -51,6 +75,12 @@ class GameState {
     
     func addItemToInventory(item: InventoryItem) {
         inventory.append(item)
+        if item == .Evangeline {
+            dispatchLater {
+                self.evangelineState = .Happy
+                self.delegate.gameState(self, didChangeEvangelineState: self.evangelineState)
+            }
+        }
         switch item {
         case .RedGem, .OrangeGem:
             delegate.gameState(self, updatedGem: item, inInventory: true)
