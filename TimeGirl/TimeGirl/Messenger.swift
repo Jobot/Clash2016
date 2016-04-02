@@ -255,6 +255,25 @@ struct Messenger {
             return "You talk to the strange girl. She says her name is Evangeline."
         }
         
+        switch state.location.region {
+        case .MostlyEmptyRoom:
+            fatalError("Evangeline cannot be in the mostly empty room.")
+        case .Pompeii:
+            guard let locationName = PompeiiLocation(rawValue: state.location.name) else {
+                fatalError("Invalid location")
+            }
+            switch locationName {
+            case .TownOfPompeii:
+                return "You talk to Evangeline. She tells you that you are in Pompeii. She says the only interesting thing to do around here is visit the volcano."
+            case .DistantVolcano:
+                return "Evangeline tells you the volcano has been more active than usual lately. She stairs up at the smoke rising from the cone. She seems a little nervous. She suggests you explore the volcano more closely."
+            case .InsideTheVolcano:
+                return "Evangeline points out the large orange gem in the wall of the volcano."
+            }
+        case .Troy:
+            return "Evangeline has nothing to say here."
+        }
+        
         return "You talk to Evangeline. She seems nice."
     }
     

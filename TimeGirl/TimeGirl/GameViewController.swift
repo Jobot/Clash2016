@@ -96,7 +96,6 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
     }
     
     func processCommand(command: Command) {
-        evangelineImageView.image = nil
         var message: String
         switch command {
         case .LookAround:

@@ -45,7 +45,13 @@ enum EvangelineState {
 class GameState {
     let delegate: GameStateDelegate
     var location: Location
-    var evangelineState: EvangelineState = .Absent
+    var evangelineState: EvangelineState = .Absent {
+        didSet {
+            dispatchLater {
+                self.delegate.gameState(self, didChangeEvangelineState: self.evangelineState)
+            }
+        }
+    }
     
     private var inventory: [InventoryItem]
     
@@ -192,6 +198,25 @@ class GameState {
         delegate.gameState(self, movedToLocation: location, fromLocation: oldLocation)
         if oldLocation.region == .MostlyEmptyRoom {
             removeItemFromInventory(.Flashlight)
+        }
+        
+        switch location.region {
+        case .MostlyEmptyRoom:
+            break
+        case .Pompeii:
+            guard let locationName = PompeiiLocation(rawValue: location.name) else {
+                fatalError("Invalid location")
+            }
+            switch locationName {
+            case .TownOfPompeii:
+                evangelineState = .Happy
+            case .DistantVolcano:
+                evangelineState = .Curious
+            case .InsideTheVolcano:
+                evangelineState = .Curious
+            }
+        case .Troy:
+            break;
         }
     }
 }
