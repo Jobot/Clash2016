@@ -34,6 +34,15 @@ enum InventoryItem: String {
         return nil
     }
     
+    func canTake() -> Bool {
+        switch self {
+        case .RedGem, .OrangeGem:
+            return true
+        case .Flashlight:
+            return true
+        }
+    }
+    
     static func InventoryFromTokens(tokens: [String]) -> (inventory: InventoryItem?, consumedTokens: [String], remainingTokens: [String]) {
         let string = String.stringFromTokens(tokens).lowercaseString
         for nameList in acceptableNames.values {

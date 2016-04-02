@@ -26,7 +26,15 @@ struct Messenger {
     }
     
     func messageForExamineItem(item: InventoryItem) -> String {
+        if (state.location.region == .MostlyEmptyRoom) && !state.flashlightIsOn {
+            return "It's too dark for that."
+        }
+        
         if state.inventory.contains(item) {
+            return item.describe()
+        }
+        
+        if state.location.inventory.contains(item) {
             return item.describe()
         }
         
@@ -38,6 +46,25 @@ struct Messenger {
     }
     
     func messageForTakeItem(item: InventoryItem) -> String {
+        if (state.location.region == .MostlyEmptyRoom) && !state.flashlightIsOn {
+            return "It's too dark for that."
+        }
+        
+        if !item.canTake() {
+            return "That's not something you can take."
+        }
+        
+        if state.inventory.contains(item) {
+            return "You already have \(item)."
+        }
+        if state.location.inventory.contains(item) {
+            if let index = state.location.inventory.indexOf(item) {
+                state.location.inventory.removeAtIndex(index)
+                state.inventory.append(item)
+                return "You take \(item)."
+            }
+        }
+        
         let messages = [ "You cannot take \(item).",
                          "Why do you want to take \(item)?",
                          "That's not yours.",
@@ -47,6 +74,10 @@ struct Messenger {
     }
     
     func messageForOpenItem(item: InventoryItem) -> String {
+        if (state.location.region == .MostlyEmptyRoom) && !state.flashlightIsOn {
+            return "It's too dark for that."
+        }
+        
         let messages = [ "It does not seem to open.",
                          "Not everything can be opened.",
                          "You cannot open \(item) right now."
