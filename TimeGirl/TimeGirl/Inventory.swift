@@ -12,11 +12,13 @@ enum InventoryItem: String {
     case RedGem = "a red gem"
     case OrangeGem = "an orange gem"
     case Flashlight = "a flashlight"
+    case TimeMachine = "a strange machine"
     
     static let acceptableNames: [ InventoryItem:[String] ] = [
         .RedGem : [ "red gem", "a red gem", "the red gem" ],
         .OrangeGem : [ "orange gem", "a orange gem", "an orange gem", "the orange gem" ],
-        .Flashlight: [ "flashlight", "a flashlight", "my flashlight", "the flashlight", "a small flashlight" ]
+        .Flashlight: [ "flashlight", "a flashlight", "my flashlight", "the flashlight", "a small flashlight" ],
+        .TimeMachine: [ "machine", "a machine", "a strange machine", "the machine", "the strange machine", "the time machine" ]
     ]
     
     init?(rawValue: String) {
@@ -40,6 +42,17 @@ enum InventoryItem: String {
             return true
         case .Flashlight:
             return true
+        case .TimeMachine:
+            return false
+        }
+    }
+    
+    func canUseWithItem(item: InventoryItem) -> Bool {
+        switch self {
+        case .RedGem, .OrangeGem:
+            return item == .TimeMachine
+        default:
+            return false
         }
     }
     
@@ -66,6 +79,8 @@ enum InventoryItem: String {
             return "A large orange gem. It's not very heavy. In fact, you could comfortably tote several of these in your backpack."
         case .Flashlight:
             return "A small, sturdy flashlight. This flashlight has accompanied you on many adventures, and you cannot imagine going anwhere without it."
+        case .TimeMachine:
+            return "A strange, star-shaped machine."
         }
     }
 }

@@ -30,7 +30,7 @@ struct Messenger {
             return "It's too dark for that."
         }
         
-        if state.inventory.contains(item) {
+        if state.hasItemInInventory(item) {
             return item.describe()
         }
         
@@ -54,13 +54,13 @@ struct Messenger {
             return "That's not something you can take."
         }
         
-        if state.inventory.contains(item) {
+        if state.hasItemInInventory(item) {
             return "You already have \(item)."
         }
         if state.location.inventory.contains(item) {
             if let index = state.location.inventory.indexOf(item) {
                 state.location.inventory.removeAtIndex(index)
-                state.inventory.append(item)
+                state.addItemToInventory(item)
                 return "You take \(item)."
             }
         }
@@ -97,17 +97,17 @@ struct Messenger {
                              "You currently possess:",
                              "You are the proud owner of:"
         ]
-        if state.inventory.count < 1 {
+        if state.numberOfItemsInInventory() < 1 {
             return randomMessageFromMessages(emptyMessages)
         } else {
-            return state.inventory.reduce(randomMessageFromMessages(fullMessages)) { (message, item) -> String in
+            return state.inventoryItems().reduce(randomMessageFromMessages(fullMessages)) { (message, item) -> String in
                 return "\(message)\n\t\(item.rawValue)"
             }
         }
     }
     
     func messageForTurnOnItem(item: InventoryItem) -> String {
-        if state.inventory.contains(item) {
+        if state.hasItemInInventory(item) {
             // user has item ... can we turn it on?
             if item == .Flashlight {
                 if state.flashlightIsOn {
@@ -119,6 +119,14 @@ struct Messenger {
             }
         }
         
+        if (state.location.region == .MostlyEmptyRoom) && !state.flashlightIsOn {
+            return "It's too dark for that."
+        }
+        
+        if (item == .TimeMachine) && state.location.inventory.contains(item) {
+            return "The machine doesn't seem to have an on/off switch."
+        }
+        
         let messages = [
             "That doesn't seem to work.",
             "You don't know how to turn that on.",
@@ -128,7 +136,7 @@ struct Messenger {
     }
     
     func messageForTurnOffItem(item: InventoryItem) -> String {
-        if state.inventory.contains(item) {
+        if state.hasItemInInventory(item) {
             // user has the item .. can we turn it off?
             if item == .Flashlight {
                 if state.flashlightIsOn {
@@ -146,5 +154,34 @@ struct Messenger {
             "That cannot be turned off."
         ]
         return randomMessageFromMessages(messages)
+    }
+    
+    func messageForUseItem(item: CommandAssociatedValue) -> String {
+        if !state.hasItemInInventory(item.recognizedItem) {
+            return "You don't have \(item.recognizedItem)."
+        }
+        
+        guard let preposition = item.remainingTokens.first else {
+            return messageForUnknownText("")
+        }
+        
+        let acceptablePrepositions = [ "in", "on", "with" ]
+        guard acceptablePrepositions.contains(preposition.lowercaseString) else {
+            return messageForUnknownText("")
+        }
+        
+        let remainingTokens = Array(item.remainingTokens.dropFirst())
+        let response = InventoryItem.InventoryFromTokens(remainingTokens)
+        
+        guard let nextItem = response.inventory else {
+            return "I don't know how to do that."
+        }
+        
+        if item.recognizedItem.canUseWithItem(nextItem) {
+            state.useItems(item.recognizedItem, item2: nextItem)
+            return "Using \(item.recognizedItem) with \(nextItem)"
+        }
+        
+        return messageForUnknownText("")
     }
 }

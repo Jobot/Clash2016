@@ -52,20 +52,20 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
             appDelegate.gameState = state
             messenger = Messenger(state: state)
         }
+        
+        enableRedGem(false)
+        enableOrangeGem(false)
+        enableYellowGem(false)
+        enableGreenGem(false)
+        enableBlueGem(false)
+        enableIndigoGem(false)
+        enableVioletGem(false)
     }
     
     override func viewWillAppear() {
         super.viewWillAppear()
         
         changeToLocation(state.location)
-        
-        enableRedGem(true)
-        enableOrangeGem(true)
-        enableYellowGem(false)
-        enableGreenGem(true)
-        enableBlueGem(false)
-        enableIndigoGem(false)
-        enableVioletGem(true)
     }
     
     override func controlTextDidEndEditing(obj: NSNotification) {
@@ -122,6 +122,11 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
                 fatalError("Error unwrapping item")
             }
             message = messenger.messageForTurnOffItem(item)
+        case let .Use(item):
+            guard let item = item else {
+                fatalError("Error unwrapping item")
+            }
+            message = messenger.messageForUseItem(item)
         }
         
         echoResponse(message, toTextView: textView)
@@ -227,11 +232,24 @@ extension GameViewController: GameStateDelegate {
         changeToLocation(toLocation, fromLocation: fromLocation)
     }
     
-    func gameState(gameStage: GameState, didEnableFlashlight enabled: Bool) {
+    func gameState(gameState: GameState, didEnableFlashlight enabled: Bool) {
         if state.location.region == .MostlyEmptyRoom {
             imageView.image = state.location.backgroundImage
             appendMessage(state.location.describeLocation(), toTextView: textView)
             appendMessage(" ", toTextView: textView)
         }
+    }
+    
+    func gameState(gameState: GameState, updatedGem: InventoryItem, inInventory: Bool) {
+        switch updatedGem {
+        case .RedGem:
+            enableRedGem(inInventory)
+        case .OrangeGem:
+            enableOrangeGem(inInventory)
+        default:
+            break
+        }
+        
+        imageView.image = state.location.backgroundImage
     }
 }

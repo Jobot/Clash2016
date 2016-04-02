@@ -42,7 +42,7 @@ enum Region {
         switch self {
         case .MostlyEmptyRoom:
             return [
-                Location(name: MostlyEmptyRoomLocation.MostlyEmptyRoom.rawValue, region: self, inventory: [ .RedGem ])
+                Location(name: MostlyEmptyRoomLocation.MostlyEmptyRoom.rawValue, region: self, inventory: [ .RedGem, .TimeMachine ])
             ]
         case .Pompeii:
             return [
@@ -66,10 +66,11 @@ class Location {
         var imagePath = ""
         switch region {
         case .MostlyEmptyRoom:
+            let gemShown = gemIsShown
             if flashlightIsOn {
-                imagePath = "EmptyRoom"
+                imagePath = gemShown ? "EmptyRoom" : "EmptyRoomNoGem"
             } else {
-                imagePath = "DarkEmptyRoom"
+                imagePath = gemShown ? "DarkEmptyRoom" : "DarkEmptyRoomNoGem"
             }
         case .Pompeii:
             guard let locationName = PompeiiLocation(rawValue: name) else {
@@ -99,6 +100,12 @@ class Location {
             fatalError("Unable to retrieve App Delegate")
         }
         return appDelegate.gameState.flashlightIsOn
+    }
+    var gemIsShown: Bool {
+        guard let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate else {
+            fatalError("Unable to retrieve App Delegate")
+        }
+        return !appDelegate.gameState.hasItemInInventory(.RedGem)
     }
     var descriptionGiven: Bool = false
     

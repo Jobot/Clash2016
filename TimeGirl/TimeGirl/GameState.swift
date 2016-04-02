@@ -10,13 +10,15 @@ import Foundation
 
 protocol GameStateDelegate {
     func gameState(gameState:GameState, movedToLocation toLocation: Location, fromLocation: Location)
-    func gameState(gameStage:GameState, didEnableFlashlight enabled: Bool)
+    func gameState(gameState:GameState, didEnableFlashlight enabled: Bool)
+    func gameState(gameState:GameState, updatedGem: InventoryItem, inInventory: Bool)
 }
 
 class GameState {
     let delegate: GameStateDelegate
-    var inventory: [InventoryItem]
     var location: Location
+    
+    private var inventory: [InventoryItem]
     
     var flashlightIsOn = false {
         didSet {
@@ -30,6 +32,45 @@ class GameState {
         self.delegate = delegate
         self.inventory = inventory
         self.location = location
+    }
+    
+    func numberOfItemsInInventory() -> Int {
+        return inventory.count
+    }
+    
+    func inventoryItems() -> [InventoryItem] {
+        return inventory
+    }
+    
+    func hasItemInInventory(item: InventoryItem) -> Bool {
+        return inventory.contains(item)
+    }
+    
+    func addItemToInventory(item: InventoryItem) {
+        inventory.append(item)
+        switch item {
+        case .RedGem, .OrangeGem:
+            delegate.gameState(self, updatedGem: item, inInventory: true)
+        default:
+            break
+        }
+    }
+    
+    func removeItemFromInventory(item: InventoryItem) {
+        guard let index = inventory.indexOf(item) else {
+            fatalError("Item not found")
+        }
+        inventory.removeAtIndex(index)
+        switch item {
+        case .RedGem, .OrangeGem:
+            delegate.gameState(self, updatedGem: item, inInventory: false)
+        default:
+            break
+        }
+    }
+    
+    func useItems(item1: InventoryItem, item2: InventoryItem) {
+        print("USING \(item1) WITH \(item2)")
     }
 }
 
