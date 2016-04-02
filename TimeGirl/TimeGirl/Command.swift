@@ -40,7 +40,7 @@ enum Command {
     private static let inventoryStrings = [ "inventory", "show inventory" ]
     private static let turnOnStrings = [ "turn on", "switch on", "enable", "engage" ]
     private static let turnOffStrings = [ "turn off", "switch off", "disable", "disengage" ]
-    private static let useStrings = [ "use" ]
+    private static let useStrings = [ "use", "put" ]
     
     static func tokenIsArticle(token: String) -> Bool {
         let text = token.lowercaseString
