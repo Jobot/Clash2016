@@ -14,13 +14,15 @@ enum InventoryItem: String {
     case Flashlight = "a flashlight"
     case Door = "an ordinary door"
     case TimeMachine = "a strange machine"
+    case DistantVolcano = "a distant volcano"
     
     static let acceptableNames: [ InventoryItem:[String] ] = [
         .RedGem : [ "ruby", "red gem", "big red gem", "a red gem", "the red gem" ],
         .OrangeGem : [ "orange gem", "a orange gem", "an orange gem", "the orange gem" ],
         .Flashlight: [ "flashlight", "a flashlight", "my flashlight", "the flashlight", "a small flashlight" ],
         .Door : [ "door", "a door", "the door", "ordinary door", "an ordinary door", "the ordinary door" ],
-        .TimeMachine: [ "machine", "a machine", "a strange machine", "the machine", "the strange machine", "the time machine" ]
+        .TimeMachine: [ "machine", "a machine", "a strange machine", "the machine", "the strange machine", "the time machine" ],
+        .DistantVolcano: [ "distant volcano", "a distant volcano", "volcano", "a volcano", "the distant volcano", "the volcano" ]
     ]
     
     init?(rawValue: String) {
@@ -47,6 +49,8 @@ enum InventoryItem: String {
         case .Door:
             return false
         case .TimeMachine:
+            return false
+        case .DistantVolcano:
             return false
         }
     }
@@ -87,6 +91,8 @@ enum InventoryItem: String {
             return "An ordinary door. There's nothing special about it. It feels slightly warm."
         case .TimeMachine:
             return "A strange, star-shaped machine."
+        case .DistantVolcano:
+            return "A distant volcano. You see a thin trail of smoke rising from the top of the cone. It's probably harmless."
         }
     }
 }

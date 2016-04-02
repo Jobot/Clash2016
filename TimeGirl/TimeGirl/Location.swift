@@ -46,7 +46,7 @@ enum Region {
             ]
         case .Pompeii:
             return [
-                Location(name: PompeiiLocation.TownOfPompeii.rawValue, region: self, inventory: [ .TimeMachine ]),
+                Location(name: PompeiiLocation.TownOfPompeii.rawValue, region: self, inventory: [ .TimeMachine, .DistantVolcano ]),
                 Location(name: PompeiiLocation.InsideTheVolcano.rawValue, region: self, inventory: [ .OrangeGem ])
             ]
         case .Troy:
