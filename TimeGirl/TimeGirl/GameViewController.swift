@@ -103,6 +103,10 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
             message = messenger.messageForOpenItem(item)
         case .Inventory:
             message = messenger.messageForInventory()
+        case let .TurnOn(item):
+            message = messenger.messageForTurnOnItem(item)
+        case let .TurnOff(item):
+            message = messenger.messageForTurnOffItem(item)
         }
         
         echoResponse(message, toTextView: textView)
@@ -206,5 +210,13 @@ class GameViewController: NSViewController, NSTextFieldDelegate {
 extension GameViewController: GameStateDelegate {
     func gameState(gameState: GameState, movedToLocation toLocation: Location, fromLocation: Location) {
         changeToLocation(toLocation, fromLocation: fromLocation)
+    }
+    
+    func gameState(gameStage: GameState, didEnableFlashlight enabled: Bool) {
+        if state.location.region == .MostlyEmptyRoom {
+            imageView.image = state.location.backgroundImage
+            appendMessage(state.location.describeLocation(), toTextView: textView)
+            appendMessage(" ", toTextView: textView)
+        }
     }
 }

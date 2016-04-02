@@ -76,4 +76,50 @@ struct Messenger {
             }
         }
     }
+    
+    func messageForTurnOnItem(item: String) -> String {
+        if let knownItem = Inventory(rawValue: item) {
+            if state.inventory.contains(knownItem) {
+                // user has item ... can we turn it on?
+                if knownItem == .Flashlight {
+                    if state.flashlightIsOn {
+                        return "Your flashlight is already on."
+                    } else {
+                        state.flashlightIsOn = true
+                        return "You turn on your flashlight."
+                    }
+                }
+            }
+        }
+        
+        let messages = [
+            "That doesn't seem to work.",
+            "You don't know how to turn that on.",
+            "That cannot be turned on."
+        ]
+        return randomMessageFromMessages(messages)
+    }
+    
+    func messageForTurnOffItem(item: String) -> String {
+        if let knownItem = Inventory(rawValue: item) {
+            if state.inventory.contains(knownItem) {
+                // user has the item .. can we turn it off?
+                if knownItem == .Flashlight {
+                    if state.flashlightIsOn {
+                        state.flashlightIsOn = false
+                        return "You turn off your flashlight."
+                    } else {
+                        return "Your flashlight is not on."
+                    }
+                }
+            }
+        }
+        
+        let messages = [
+            "That doesn't seem to work.",
+            "You don't know how to turn that off.",
+            "That cannot be turned off."
+        ]
+        return randomMessageFromMessages(messages)
+    }
 }

@@ -18,15 +18,19 @@ struct CommandItem {
 }
 
 enum Command {
-    case Examine(item: String)
-    case Take(item: String)
-    case Open(item: String)
+    case Examine(String)
+    case Take(String)
+    case Open(String)
     case Inventory
-    
+    case TurnOn(String)
+    case TurnOff(String)
+
     private static let examineStrings = [ "examine", "look at", "view", "inspect" ]
     private static let takeStrings = [ "take", "pick up", "grab", "snatch" ]
     private static let openStrings = [ "open" ]
     private static let inventoryStrings = [ "inventory", "show inventory" ]
+    private static let turnOnStrings = [ "turn on", "switch on", "enable", "engage" ]
+    private static let turnOffStrings = [ "turn off", "switch off", "disable", "disengage" ]
     
     static func stringFromTokens(tokens: [String], separator: String = " ") -> String {
         return tokens.reduce("") { (text, token) -> String in
@@ -70,7 +74,7 @@ enum Command {
         switch command {
         case .Inventory:
             return .Inventory
-        case .Examine, .Take, .Open:
+        case .Examine, .Take, .Open, .TurnOn, .TurnOff:
             break
         }
         
@@ -80,13 +84,17 @@ enum Command {
         
         switch command {
         case .Examine:
-            return .Examine(item: item)
+            return .Examine(item)
         case .Take:
-            return .Take(item: item)
+            return .Take(item)
         case .Open:
-            return .Open(item: item)
+            return .Open(item)
         case .Inventory:
             break
+        case .TurnOn:
+            return .TurnOn(item)
+        case .TurnOff:
+            return .TurnOff(item)
         }
         
         return nil
@@ -94,10 +102,12 @@ enum Command {
     
     static func commandFromTokens(tokens: [String]) -> Command? {
         let text = stringFromTokens(tokens).lowercaseString
-        let commands = [ CommandItem(command: .Examine(item: ""), strings: examineStrings),
-                         CommandItem(command: .Take(item: ""), strings: takeStrings),
-                         CommandItem(command: .Open(item: ""), strings: openStrings),
-                         CommandItem(command: .Inventory, strings: inventoryStrings)
+        let commands = [ CommandItem(command: .Examine(""), strings: examineStrings),
+                         CommandItem(command: .Take(""), strings: takeStrings),
+                         CommandItem(command: .Open(""), strings: openStrings),
+                         CommandItem(command: .Inventory, strings: inventoryStrings),
+                         CommandItem(command: .TurnOn(""), strings: turnOnStrings),
+                         CommandItem(command: .TurnOff(""), strings: turnOffStrings)
         ]
         
         for command in commands {

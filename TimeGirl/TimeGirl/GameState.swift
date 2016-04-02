@@ -9,7 +9,8 @@
 import Foundation
 
 protocol GameStateDelegate {
-    func gameState(gameState:GameState, movedToLocation: Location, fromLocation: Location)
+    func gameState(gameState:GameState, movedToLocation toLocation: Location, fromLocation: Location)
+    func gameState(gameStage:GameState, didEnableFlashlight enabled: Bool)
 }
 
 class GameState {
@@ -17,11 +18,27 @@ class GameState {
     var inventory: [Inventory]
     var location: Location
     
-    var flashlightIsOn = false
+    var flashlightIsOn = false {
+        didSet {
+            dispatchLater { 
+                self.delegate.gameState(self, didEnableFlashlight: self.flashlightIsOn)
+            }
+        }
+    }
     
     init(delegate: GameStateDelegate, inventory: [Inventory], location: Location) {
         self.delegate = delegate
         self.inventory = inventory
         self.location = location
+    }
+}
+
+extension GameState {
+    func dispatchLater(closure: () -> ()) {
+        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delay,
+                       dispatch_get_main_queue()) {
+                        closure()
+        }
     }
 }
